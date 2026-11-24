@@ -46,7 +46,7 @@ body.exam-live .main{max-width:1080px;padding-top:15px}body.exam-live .appbar{bo
 body.archive-live .layout{display:grid;grid-template-columns:230px minmax(0,1fr);max-width:1600px}body.archive-live .left-rail{display:block!important;position:sticky;top:61px;height:calc(100vh - 61px);background:var(--bar);padding:15px 10px 25px;overflow-y:auto}body.archive-live .main{max-width:none;min-width:0}.archive-shell{min-width:0}.archive-paper{background:var(--paper)}.archive-caption{color:var(--ink)}.source-note{color:var(--secondary)}.source-card-stats{background:var(--surface)}.archive-warning{background:var(--surface);border-color:var(--line)}.hero h1{font-size:25px;letter-spacing:-.02em}.hero p{font-size:12px;line-height:1.5;margin-top:5px}.hero{margin-bottom:14px}.modal-backdrop{z-index:350}.modal{max-width:900px}.modal h1{font-size:22px!important}.modal h2{font-size:20px}.close-modal{position:sticky;top:0}
 @media(max-width:900px){.main{padding:15px 12px 28px}.paper-pad{padding:18px 20px 10px!important}.problem-stem{font-size:16px!important}.case-diagram{max-height:185px}.session-id span{display:none}.compact-controls select{max-width:210px}.compact-controls select#variantSelect{flex:1}.paper-meta{padding:10px 20px!important}.paper-bottom{padding:10px 20px!important}}
 @media(max-width:680px){.appbar{height:auto;min-height:59px;padding:8px 12px;gap:7px}.brand{min-width:0;flex:1}.brand b{font-size:14px}.header-tabs{order:3;width:100%;height:37px;justify-content:space-around;gap:4px}.header-tabs button{padding:0 4px;font-size:12px;flex:1}.layout{min-height:calc(100vh - 94px)}.main{padding:11px 9px 24px}.session-top{margin-bottom:8px}.session-id strong{font-size:14px}.session-score{font-size:10px}.slot-strip{padding-bottom:8px}.slot-chip{flex:0 0 42px;height:34px}.compact-controls{gap:6px}.compact-controls select{flex:1 1 45%;min-width:135px;max-width:none}.compact-controls select#variantSelect{flex:1 1 50%;min-width:145px}.compact-controls .btn{flex:1;min-width:100px;justify-content:center}.question-paper{border-radius:5px!important}.paper-pad{padding:15px 14px 10px!important}.problem-stem{font-size:15px!important;line-height:1.55}.paper-meta{padding:9px 12px!important;font-size:10px!important}.case-diagram{max-height:165px}.given-token{font-size:11.5px;white-space:normal}.given-stack{gap:1px 8px;padding-bottom:8px!important}.given-token:not(:last-child)::after{margin-left:6px}.options{gap:5px!important}.answer{min-height:42px!important;padding:7px 9px!important;gap:8px!important}.answer-value{font-size:12px!important}.letter{width:25px!important;min-width:25px!important;height:25px!important}.paper-bottom{padding:9px 12px!important}.paper-status{font-size:10px!important}.underquestion{font-size:11px;padding:0 4px}.exam-map button{min-width:38px}.exam-timer{font-size:15px}.exam-header h1{font-size:15px!important}body.archive-live .layout{display:block}body.archive-live .left-rail{position:static;height:auto;max-height:220px;border-bottom:1px solid var(--line);overflow:auto}body.archive-live .left-rail .rail-scroll{display:block}.exam-review-grid{grid-template-columns:repeat(2,1fr)}}
-.givens-toggle{margin:4px 0 10px;font-size:12px;color:var(--secondary)}.paper-pad .given-stack.hide,.given-stack.hide{display:none!important}.given-label{color:#41586a}.given-math{color:#172b3b}.given-math mjx-container{margin:0!important;font-size:100%!important}.given-token.const{font-size:12px}.given-token.const mjx-container{margin:0!important}.answer-value mjx-container{font-size:105%!important}
+.given-label{color:#41586a}.given-math{color:#172b3b}.given-math mjx-container{margin:0!important;font-size:100%!important}.given-token.const{font-size:12px}.given-token.const mjx-container{margin:0!important}.answer-value mjx-container{font-size:105%!important}
 
 /* Compact bank switcher: always visible even when the old sidebar is hidden. */
 .practice-sets{display:flex;gap:5px;align-items:center;margin:2px 0 9px;border-bottom:1px solid var(--line);padding-bottom:5px}
@@ -57,6 +57,12 @@ body.archive-live .layout{display:grid;grid-template-columns:230px minmax(0,1fr)
 .rec-strip .slot-chip{flex:0 0 65px}
 @media(max-width:680px){.practice-sets{margin-bottom:6px}.set-tab{flex:1;font-size:11px;padding:6px 4px}}
 .stem-math{font-size:14px;text-align:center;color:var(--text);margin:6px 0 2px}.stem-math mjx-container{margin:0!important;max-width:100%;overflow-x:auto;overflow-y:hidden}
+
+/* Official-style equation identification, uses the bundled MathJax SVG engine. */
+.answer-value mjx-container[display="true"]{margin:.12em 0!important;text-align:left!important}
+.answer:has(mjx-container[display="true"]){min-height:66px}
+.given-derived{display:inline-block;max-width:100%;line-height:1.5}
+@media(max-width:700px){.answer-value mjx-container[display="true"]{max-width:100%;overflow-x:auto;overflow-y:hidden}}
 </style>
 <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true,packages:{'[+]':['noerrors']}},svg:{fontCache:'global'},options:{skipHtmlTags:['script','style','textarea','pre','code']},startup:{typeset:false}};</script>
 </head><body>
@@ -75,7 +81,7 @@ let randomFn=Math.random;
 function seedRandom(seed){ let a=(seed>>>0)||123456789; randomFn=()=>{a+=0x6D2B79F5;let t=a;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return ((t^(t>>>14))>>>0)/4294967296;}; }
 const rand=(arr)=>arr[Math.floor(randomFn()*arr.length)];
 const coin=()=>randomFn()<.5;
-const choice=(arr,base)=>base?arr[0]:rand(arr);
+const choice=(arr,base)=>rand(arr); // baseline = original question structure, not frozen numbers
 const sq=x=>x*x;
 const sqrt=Math.sqrt;
 const fnum=(v)=>Math.abs(v)<1e-8?'0':(Math.abs(v)>=10000?Number(v.toPrecision(5)).toString():Number(v.toFixed(5)).toString());
@@ -84,9 +90,10 @@ function getLvl(state,slot,key,symbol){const map=state?.regress?.[slot]||{};cons
 function deriveFact(key,symbol,value,unit,level,ctx={}) {
   let v=Number(value), u=unit?` ${unit}`:'', direct=`${symbol} = ${fnum(v)}${u}`;
   if(!level||!Number.isFinite(v)) return direct;
+
   const exact=(x)=>fnum(x);
   const density=1000, g=ctx.g||G;
-  switch(key){
+  function describe(){ switch(key){
     case 'mass':
       if(level===1)return `The object's density is ${density} kg/m³; its volume is ${exact(v/density)} m³.`;
       return `The object has density ${density} kg/m³, rectangular base area ${exact(v/(density*.25))} m², and thickness 0.25 m.`;
@@ -129,7 +136,8 @@ function deriveFact(key,symbol,value,unit,level,ctx={}) {
       if(level===1)return `Recorded coordinate = ${exact(v+.25)} m; reference coordinate = 0.25 m.`;
       return `Two consecutive segments, each ${exact(v/2)} m.`;
     default:return direct;
-  }
+  }}
+  return `${symbol} — ${describe()}`;
 }
 function mk(slot,state,base,inputs){
  const lines=[], components=[];
@@ -224,7 +232,7 @@ function generateProblem(slot, variant, state){
    value=F;unit='N';work=['Choose the elbow as pivot to eliminate unknown hinge forces.','Counterclockwise biceps torque F a cosθ balances clockwise weights.','F a cosθ = Mg(L/2)'+(extra?' + m_load gL.':'.')];note='θ is measured from the VERTICAL, so the torque-producing force component is F cosθ.';break;}
  case 6:case 7:{let mTop=use([2,1,3]),mBottom=variant==='unequal'?mTop*2:mTop,L=use([.8,1.2,.6]),h=use([.4,.3,.6]),vTop=use([3,4,2]),vBottom=use([5,2,6]);if(variant==='directions')vTop=-vTop;
    const mt=mTop+mBottom,ycm=mTop*L/mt,Lrot=(mTop*mBottom/mt)*L*(vBottom-vTop),Ltrans=-(h+ycm)*(mTop*vTop+mBottom*vBottom),Ltotal=Lrot+Ltrans;
-   stem=`Two point masses are attached to the ends of a vertical massless rod of length L on frictionless ice (viewed from above). The TOP mass moves along x at velocity v_top; the BOTTOM mass moves along x at v_bottom. Point A is h BELOW the bottom mass. Find the z-component of ${variant==='total'?'TOTAL angular momentum about A':slot===6?'ROTATIONAL angular momentum about their center of mass':'TRANSLATIONAL angular momentum about A'}. CCW is +z.`;
+   stem=`Two point masses ${variant==='unequal'?'with unequal masses':'each of mass m'} are attached to the ends of a vertical massless rod of length L on frictionless ice (viewed from above). The TOP mass moves along x at velocity v_top; the BOTTOM mass moves along x at v_bottom. Point A is h BELOW the bottom mass. Find ${(state?.equationMode??true)?'the vector for':'the z-component of'} ${variant==='total'?'TOTAL angular momentum about A':slot===6?'ROTATIONAL angular momentum about their center of mass':'TRANSLATIONAL angular momentum about A'}. CCW is +z.`;
    add('mass','m_top',mTop,'kg');add('mass','m_bottom',mBottom,'kg');add('length','L',L,'m');add('height','h',h,'m');
    add('speed','|v_top|',Math.abs(vTop),'m/s',{mass:mTop});add('speed','|v_bottom|',Math.abs(vBottom),'m/s',{mass:mBottom});
    stem+=` Directions: top ${vTop<0?'LEFT (−x)':'RIGHT (+x)'}, bottom ${vBottom<0?'LEFT (−x)':'RIGHT (+x)'}.`;
@@ -249,13 +257,13 @@ function generateProblem(slot, variant, state){
    add('mass','lower M',M,'kg');add('radius','lower R',R,'m');add('mass','upper m',m,'kg');add('radius','upper r',r,'m');add('omega','lower ω₁',w1,'rad/s');if(variant==='final')add('omega','upper CW speed ω_top',wtop,'rad/s');
    value=variant==='final'?wf:target;unit=variant==='final'?'rad/s (+CCW signed)':'rad/s (CW magnitude)';work=['Take CCW as positive: I_lower ω₁ − I_upper ω_top = (I_lower+I_upper)ω_f.','Each disk I = ½MR² with its own mass and radius.',variant==='final'?'Solve directly for ω_f.':'Set ω_f = −ω₁ and solve ω_top = (2 I_lower/I_upper+1) ω₁.'];note='The minus signs come from opposite initial rotation directions.';break;}
  case 12:{let m=use([1,2,1.5]),x=use([-.3,-.4,-.2]),y=use([.4,.3,.5]),w=use([10,8,12]),sgn=variant==='ccw'?1:-1,r=sqrt(x*x+y*y),I=2*m*r*r;
-   stem=`A barbell comprises two identical point masses connected by a massless rod, mounted on a frictionless axle through the midpoint. It spins ${sgn>0?'COUNTERCLOCKWISE':'CLOCKWISE'} in the xy plane. Find its signed angular momentum L_z.`;
-   add('mass','mass of each ball m',m,'kg');add('radius','each mass distance r',r,'m');add('omega','angular speed |ω|',w,'rad/s');
-   value=sgn*I*w;unit='kg·m²/s (+z signed)';work=['Point-mass inertia of two balls: I = mr² + mr² = 2mr².','For r=(x,y), radius r²=x²+y².','L_z = Iω_z. Clockwise is negative z, counterclockwise positive z.'];note='The rod is massless, so only the two balls contribute to I.';break;}
+   stem=`A barbell comprises two identical point masses connected by a massless rod, mounted on a frictionless axle through the midpoint. It spins ${sgn>0?'COUNTERCLOCKWISE':'CLOCKWISE'} in the xy plane. One mass has a position vector r₁ = (r_x, r_y, 0) relative to the axle, and the other mass is opposite it. Find the signed angular momentum L_z.`;
+   add('mass','mass of each ball m',m,'kg');add('position','r_x',x,'m');add('position','r_y',y,'m');add('omega','angular speed |ω|',w,'rad/s');
+   value=sgn*I*w;unit='kg·m²/s (+z signed)';work=['Point-mass inertia of two balls: I = mr² + mr² = 2mr².','Use the supplied Cartesian coordinates: r² = r_x² + r_y² (do not use just one component).','L_z = Iω_z. Clockwise is negative z, counterclockwise positive z.'];note='The rod is massless, so only the two balls contribute to I.';break;}
  case 13:{let F=use([10,15,8]),r=use([.5,.4,.6]),phi=variant==='angle'?use([30,60,45]):90,sign=variant==='direction'?-1:1,fx=variant==='baseline'?-F:variant==='direction'?F:-F,ry=r*Math.sin(Math.asin(.8)),rx=-r*.6;
-   if(variant==='baseline'){ry=.4;rx=-.3;r=.5;F=10;}
-   let torque=variant==='baseline'?4:sign*r*F*Math.sin(phi*PI/180);
-   stem=variant==='baseline'?'A barbell rotates around the z axis. A force F = (−10, 0, 0) N acts at location r = (−0.30, +0.40, 0) m. What is dL_z/dt?':`A force of magnitude F acts at position vector of magnitude r, at angle φ between r and F. The resulting torque is ${sign>0?'COUNTERCLOCKWISE (+z)':'CLOCKWISE (−z)'}. Find dL_z/dt.`;
+   if(variant==='baseline'){ry=use([.4,.3,.5]);rx=-use([.3,.4,.2]);F=use([10,12,8,15]);r=Math.hypot(rx,ry);}
+   let torque=variant==='baseline'?ry*F:sign*r*F*Math.sin(phi*PI/180);
+   stem=variant==='baseline'?'A barbell rotates around the z axis. A horizontal force F = (−|F|, 0, 0) N acts at the position vector r = (r_x, r_y, 0) m relative to the axle. What is dL_z/dt?':`A force of magnitude F acts at position vector of magnitude r, at angle φ between r and F. The resulting torque is ${sign>0?'COUNTERCLOCKWISE (+z)':'CLOCKWISE (−z)'}. Find dL_z/dt.`;
    if(variant==='baseline'){add('force','|F|',F,'N');add('position','r_x',rx,'m');add('position','r_y',ry,'m');}else{add('force','|F|',F,'N');add('radius','|r|',r,'m');add('angle','φ between r and F',phi,'°');}
    value=torque;unit='N·m (+z signed)';work=['Angular momentum principle: dL_z/dt = τ_net,z.','Coordinate form: τ_z = r_x F_y − r_y F_x.','Angle form: |τ| = rF sinφ, with sign from CW/CCW.'];break;}
  case 14:{let M=use([8,10,6]),R=use([.5,.6,.4]),m=use([2,3,1]),r=use([.2,.3,.15]),F=use([12,18,15]),beta=variant==='rod'?1/3:.5,I=beta*M*R*R+.5*m*r*r;let tau=-F*r,additional=0;
@@ -275,9 +283,79 @@ function generateProblem(slot, variant, state){
  default:throw Error('Unknown slot '+slot);
  }
  if(!Number.isFinite(value)) throw Error(`Nonfinite Q${slot} ${variant}`);
- return {slot, variant:variantId,title:P.title,topic:P.topic,page:P.page,stem,givens:a.out(),components:a.specs(),value,partner,unit,work,note,formula:P.formula};
+ return {equationMode:([1,2,6,7,9].includes(slot)&&variant!=='yoyo'&&(state?.equationMode??true)),slot, variant:variantId,title:P.title,topic:P.topic,page:P.page,stem,givens:a.out(),components:a.specs(),value,partner,unit,work,note,formula:P.formula};
 }
+// Original equation-recognition choices for the corresponding official PDF slots.
+// Givens are randomized independently; expressions are genuine equivalent algebraic laws.
+function makeSymbolicOptions(q){
+ const j=q.slot, v=q.variant;
+ let ts=[];
+ if(j===1){ts=[
+  String.raw`\omega_f=\sqrt{\omega_0^2+\frac{2Mg\Delta y}{I}}`,
+  String.raw`\omega_f=\sqrt{\omega_0^2-\frac{2Mg\Delta y}{I}}`,
+  String.raw`\omega_f=\sqrt{\frac{2Mg\Delta y}{I}}`,
+  String.raw`\omega_f=\sqrt{\omega_0^2+\frac{2Mg}{I}}`,
+  String.raw`\omega_f=\sqrt{\frac{2Mg\Delta y}{I}-\omega_0^2}`];
+ } else if(j===2){ts=[
+  String.raw`\omega=\sqrt{\frac{2FL}{I}}`,
+  String.raw`\omega=\sqrt{\frac{2Fd}{I}}`,
+  String.raw`\omega=\sqrt{\frac{2F(L+d)}{I}}`,
+  String.raw`\omega=\sqrt{\frac{FL}{I}}`,
+  String.raw`\omega=\sqrt{\frac{2F(L-d)}{I}}`];
+ } else if(j===6 || j===7){
+  const unequal=v==='unequal';
+  const mu=unequal?String.raw`\frac{m_{\rm top}m_{\rm bottom}}{m_{\rm top}+m_{\rm bottom}}`:String.raw`\frac{m}{2}`;
+  const p=unequal?String.raw`m_{\rm top}v_{\rm top}+m_{\rm bottom}v_{\rm bottom}`:String.raw`m(v_{\rm top}+v_{\rm bottom})`;
+  const yc=unequal?String.raw`\frac{m_{\rm top}L}{m_{\rm top}+m_{\rm bottom}}`:String.raw`\frac{L}{2}`;
+  const rot=String.raw`\left(${mu}\right)L(v_{\rm bottom}-v_{\rm top})`;
+  const trans=String.raw`-\left(h+${yc}\right)\left(${p}\right)`;
+  if(v==='total'){
+   ts=[String.raw`L_{A,z}=${rot}+${trans}`,
+    String.raw`L_{A,z}=${rot}-${trans}`,
+    String.raw`L_{A,z}=${trans}`,
+    String.raw`L_{A,z}=${rot}`,
+    String.raw`L_{A,z}=-\left(${rot}+${trans}\right)`];
+  }else if(j===6){
+   ts=[String.raw`L_{\mathrm{rot},z}=${rot}`,
+    String.raw`L_{\mathrm{rot},z}=-\left(${rot}\right)`,
+    String.raw`L_{\mathrm{rot},z}=\left(${mu}\right)L(v_{\rm bottom}+v_{\rm top})`,
+    String.raw`L_{\mathrm{rot},z}=${trans}`,
+    String.raw`L_{\mathrm{rot},z}=2\left(${rot}\right)`];
+  }else{
+   ts=[String.raw`L_{\mathrm{trans},A,z}=${trans}`,
+    String.raw`L_{\mathrm{trans},A,z}=-\left(${trans}\right)`,
+    String.raw`L_{\mathrm{trans},A,z}=${rot}`,
+    String.raw`L_{\mathrm{trans},A,z}=-h\left(${p}\right)`,
+    String.raw`L_{\mathrm{trans},A,z}=\left(h+${yc}\right)(m_{\rm top}v_{\rm top}-m_{\rm bottom}v_{\rm bottom})`];
+  }
+ } else if(j===9){
+  const M=String.raw`\frac{Mg}{2}`, frac=String.raw`\frac{mgd}{L}`;
+  const load=(v==='loads');
+  const ext=load?String.raw`+\frac{m_2gd_2}{L}`:'';
+  const extleft=load?String.raw`+m_2g\left(1-\frac{d_2}{L}\right)`:'';
+  const left=String.raw`\frac{Mg}{2}+mg\left(1-\frac{d}{L}\right)${extleft}`;
+  const right=String.raw`${M}+${frac}${ext}`;
+  const wrongleft=String.raw`${M}+${frac}${ext}`;
+  const wrongright=String.raw`\frac{Mg}{2}+mg\left(1-\frac{d}{L}\right)${extleft}`;
+  ts=[String.raw`\begin{aligned}F_L&=${left}\\ F_R&=${right}\end{aligned}`,
+    String.raw`\begin{aligned}F_L&=${wrongleft}\\ F_R&=${wrongright}\end{aligned}`,
+    String.raw`\begin{aligned}F_L&=${M}\\ F_R&=${right}\end{aligned}`,
+    String.raw`\begin{aligned}F_L&=\frac{Mg}{2}+mg${load?'+m_2g':''}\\ F_R&=${right}\end{aligned}`,
+    String.raw`\begin{aligned}F_L&=\frac{Mg}{2}+\frac{mgd}{L}${ext}\\ F_R&=\frac{Mg}{2}+\frac{mgd}{L}${ext}\end{aligned}`];
+ }
+ // The PDF's Q6 and Q7 choices are vectors ⟨0,0,L_z⟩, not bare scalars.
+ if(j===6||j===7){
+   const lhs=v==='total'?String.raw`\vec L_{\mathrm{total},A}`:j===6?String.raw`\vec L_{\mathrm{rot}}`:String.raw`\vec L_{\mathrm{trans},A}`;
+   ts=ts.map(t=>`${lhs}=\\left\\langle 0,0,${t.slice(t.indexOf('=')+1)}\\right\\rangle`);
+ }
+ if(ts.length!==5 || new Set(ts).size!==5)throw Error(`Invalid symbolic options slot ${j}`);
+ const result=ts.map((tex,i)=>({tex,label:tex,correct:i===0,val:q.value,partner:q.partner}));
+ for(let i=4;i>0;i--){let k=Math.floor(randomFn()*(i+1));[result[i],result[k]]=[result[k],result[i]];}
+ return result;
+}
+
 function makeOptions(q){
+ if(q.equationMode)return makeSymbolicOptions(q);
  if(q.partner!==null && q.partner!==undefined){
    const right=q.value,left=q.partner,total=right+left;
    const pairs=[[left,right],[right,left],[total/2,total/2],[left+.2*right,right*.8],[left*.8,right+.2*left]];
@@ -368,163 +446,62 @@ const RECITATION_IMAGES = {"rec12-1":"data:image/webp;base64,UklGRk4jAQBXRUJQVlA
 // Figure geometry is derived from the case's actual parameters and direction statements.
 // SVG is deliberately schematic: lengths are shown in correct order and signs, not to scale.
 const DIA = (() => {
-  const ink='#203449', blue='#2a7181', red='#b45c4f', dim='#71839a', pale='#e5edf0', tan='#e2bd97', disk='#e7eef1', paper='#fffefa';
-  const esc=v=>String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;');
-  // Labels get a paper-coloured halo so they stay legible where they sit near a line.
-  const TX=(x,y,v,size=13,anchor='start',color=ink)=>`<text x="${x}" y="${y}" fill="${color}" font-size="${size}" font-weight="600" text-anchor="${anchor}" font-family="system-ui, sans-serif" paint-order="stroke" stroke="${paper}" stroke-width="4" stroke-linejoin="round">${esc(v)}</text>`;
-  const LN=(x1,y1,x2,y2,col=ink,w=2,dash='')=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col}" stroke-width="${w}" stroke-linecap="round"${dash?` stroke-dasharray="${dash}"`:''}/>`;
-  const MK={[red]:'aRed',[blue]:'aBlue',[ink]:'aInk'};
-  const AR=(x1,y1,x2,y2,col=red,w=2.6)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col}" stroke-width="${w}" marker-end="url(#${MK[col]||'aInk'})"/>`;
-  const CR=(x,y,r,fill=disk,stroke=ink,w=2)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="${w}"/>`;
-  const PA=(d,col=ink,w=2,fill='none',arrow='')=>`<path d="${d}" fill="${fill}" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"${arrow?` marker-end="url(#${arrow})"`:''}/>`;
-  const PT=(x,y)=>CR(x,y,8,'#f0cba4',ink,1.6);
-  const DIM=(x1,x2,y,label)=>LN(x1,y,x2,y,dim,1.3)+LN(x1,y-5,x1,y+5,dim,1.3)+LN(x2,y-5,x2,y+5,dim,1.3)+TX((x1+x2)/2,y-7,label,12,'middle',dim);
-  const VDIM=(x,y1,y2,label,side='left')=>LN(x,y1,x,y2,dim,1.3)+LN(x-5,y1,x+5,y1,dim,1.3)+LN(x-5,y2,x+5,y2,dim,1.3)+TX(side==='left'?x-8:x+8,(y1+y2)/2+4,label,12,side==='left'?'end':'start',dim);
-  const C=(q,re,fallback)=>{const c=(q.components||[]).find(c=>re.test(c.sym));return c?Number(c.value):fallback;};
-  const MARK=(id,c)=>`<marker id="${id}" viewBox="0 0 10 10" markerWidth="6.5" markerHeight="6.5" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="${c}"/></marker>`;
-  const root=(s,description)=>`<svg class="case-diagram" viewBox="0 0 780 212" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${description.replace(/"/g,'&quot;')}"><defs>${MARK('aRed',red)}${MARK('aBlue',blue)}${MARK('aInk',ink)}</defs>${s}</svg>`;
-
-  function render(q){
-    let s='', desc='Diagram illustrating the geometry and forces of this problem';
-    const v=q.variant||'baseline';
-    switch(q.slot){
-      case 1:{const yoyo=v==='yoyo',R=56,cx=330,cy=yoyo?112:124,sx=cx+R;
-        s+=CR(cx,cy,R)+CR(cx,cy,15,'#c4d9de',ink,1.5)+CR(cx,cy,3,ink,ink,0);
-        s+=PA(`M${cx-36} ${cy-R-12} Q${cx-6} ${cy-R-34} ${cx+18} ${cy-R-22}`,blue,2.2,'none','aBlue')+TX(cx-44,cy-R-12,'ω',13,'end',blue);
-        if(yoyo){
-          s+=LN(sx-20,26,sx+50,26,ink,5)+TX(sx+58,22,'fixed support',12,'start',dim)+LN(sx,cy,sx,26,ink,2);
-          s+=AR(cx,cy+R+4,cx,cy+R+26,red)+TX(cx+10,cy+R+22,'Mg',13,'start',red);
-        }else{
-          const hy=40,hy0=cy-8;
-          s+=LN(sx,cy,sx,hy,ink,2)+LN(sx,hy0,520,hy0,dim,1,'4 4');
-          s+=AR(sx+18,hy0+6,sx+18,hy-4,red)+TX(sx+26,hy0-4,'F = Mg',13,'start',red);
-          s+=VDIM(520,hy,hy0,'hand rise Δy','right')+TX(sx+6,hy-10,'hand',12,'start',dim);
-        }
-        break;}
-      case 2:{const R=40,cy=112,xg=200,xs=340,hx=640,top=cy-R;
-        s+=`<circle cx="${xg}" cy="${cy}" r="${R}" fill="none" stroke="${dim}" stroke-width="1.5" stroke-dasharray="4 4"/>`+TX(xg,top-10,'initial',12,'middle',dim);
-        s+=CR(xs,cy,R)+CR(xs,cy,4,ink,ink,0)+TX(xs,top-10,'after',12,'middle');
-        s+=LN(xs,top,hx,top,ink,3)+CR(hx,top,5,ink,ink,0);
-        s+=AR(hx,top,hx+80,top,red)+TX(hx+88,top+4,'F',14,'start',red);
-        s+=DIM(xg,xs,192,'center displacement d')+DIM(xs,hx,164,'unwound length L');
-        break;}
-      case 3:{const elastic=v==='elastic',track=v==='track';
-        s+=track?PA('M98 43 Q170 160 260 158 L493 158 Q600 158 683 50',ink,3):PA('M98 48 C160 48 145 161 276 161 L490 161 C610 161 603 57 682 54',ink,3);
-        s+=PT(105,45)+TX(118,30,'block m₁',13);
-        s+=PT(386,152)+TX(386,128,'target m₂',13,'middle');
-        s+=VDIM(72,48,159,'h','left');
-        s+=AR(222,137,322,152,blue)+TX(200,180,'before',12,'start',blue);
-        if(elastic){s+=AR(345,135,245,135,red)+TX(295,120,'rebounds',12,'middle',red);}
-        else{s+=AR(440,151,541,125,red)+TX(511,108,'joined masses',12,'start',red);}
-        s+=TX(600,190,'smooth track',12,'start',dim);
-        break;}
-      case 4:{const offset=v==='offset',cx=362,cy=102,r=79,y=cy-(offset?20:0);
-        s+=LN(75,182,706,182,dim,2.2);
-        s+=CR(cx,cy,r)+CR(cx,cy,4,ink,ink,0);
-        s+=AR(cx,y,586,y,red)+TX(594,y+5,'2F',14,'start',red);
-        s+=AR(cx,183,cx-124,183,blue)+TX(cx-130,176,'f',14,'end',blue);
-        s+=LN(cx,cy,cx+r,cy,dim,1.3,'5 4')+TX(cx+38,cy-9,'R',12);
-        s+=TX(490,150,'rolling →',13,'start',dim);
-        if(offset){s+=LN(cx+12,y,cx+12,cy,dim,1.3)+TX(cx+20,cy-6,'r',12);}
-        break;}
-      case 5:{const L=C(q,/^L$/,0.5),a=C(q,/attachment a/,0.1),ang=C(q,/^θ$/,30),load=v==='load';
-        const x0=106,x1=677,xb=x0+Math.min(.78,a/L)*(x1-x0),rad=ang*Math.PI/180,ux=Math.sin(rad),uy=-Math.cos(rad);
-        s+=LN(x0,111,x1,111,ink,12)+CR(x0,111,7,disk,ink,2);
-        s+=LN(xb,111,xb,67,dim,1.2,'4 4')+`<path d="M${xb} 67 A44 44 0 0 1 ${xb+44*ux} ${111+44*uy}" fill="none" stroke="${blue}" stroke-width="1.6"/>`;
-        s+=TX(xb+54*Math.sin(rad/2)+4,111-54*Math.cos(rad/2)+4,'θ',13,'start',blue);
-        s+=AR(xb,111,xb+100*ux,111+100*uy,blue)+TX(xb+104*ux+6,111+104*uy,'F',14,'start',blue);
-        s+=AR((x0+x1)/2,120,(x0+x1)/2,172,red)+TX((x0+x1)/2+10,162,'Mg',13,'start',red);
-        if(load){s+=AR(x1,120,x1,170,red)+TX(x1-8,186,'m_load g',12,'end',red);}
-        s+=TX(x0,92,'elbow',12,'start',dim);
-        s+=DIM(x0,xb,186,'a')+DIM(x0,x1,206,'L');
-        break;}
-      case 6:case 7:{const mt=C(q,/^m_top$/,2),mb=C(q,/^m_bottom$/,2),upLeft=/top LEFT/.test(q.stem||''),btLeft=/bottom LEFT/.test(q.stem||'');
-        const x=390,yT=34,yB=164,yCm=(mt*yT+mb*yB)/(mt+mb),len=110;
-        s+=LN(x,yT,x,yB,ink,6)+PT(x,yT)+PT(x,yB)+CR(x,yCm,4,blue,blue,0)+TX(x+12,yCm+4,'CM',12,'start',blue);
-        s+=AR(x+(upLeft?-10:10),yT,x+(upLeft?-len:len),yT,red)+TX(upLeft?x-len-6:x+len+6,yT-8,'v_top',12,upLeft?'end':'start',red);
-        s+=AR(x+(btLeft?-10:10),yB,x+(btLeft?-len:len),yB,blue)+TX(btLeft?x-len-6:x+len+6,yB-8,'v_bottom',12,btLeft?'end':'start',blue);
-        s+=VDIM(x-28,yT,yB,'L','left');
-        s+=LN(x,yB+8,x,196,dim,1,'3 4')+CR(x,199,4,red,red,0)+TX(x+10,204,'A',13);
-        s+=VDIM(x+28,yB,199,'h','right');
-        break;}
-      case 8:{const R=C(q,/disk radius R/,1),r=C(q,/landing radius r/,R),phi=C(q,/φ/,90),spin=C(q,/disk ω_i/,0),dR=80,landing=dR*r/R,x0=395,y0=108,x=x0-landing,y=y0;
-        const th=phi*Math.PI/180,dx=66*Math.cos(th),dy=66*Math.sin(th);
-        s+=CR(x0,y0,dR)+CR(x0,y0,4,ink,ink,0);
-        if(r<R){s+=CR(x0,y0,landing,'none',dim,1.2)+TX(x0,y0+landing+16,'inner landing',12,'middle',dim);}
-        s+=LN(x0,y0,x,y,dim,1.5,'5 4')+TX((x0+x)/2,y-8,'r',13,'middle',dim);
-        s+=PT(x,y)+AR(x-dx,y+dy,x-9*Math.cos(th),y+9*Math.sin(th),red)+TX(x-dx-10,y+dy-8,'child v',12,'end',red);
-        if(phi!==90){s+=TX(x-dx-10,y+dy+12,'φ',13,'end',red);}
-        if(spin>0){s+=PA(`M${x0+dR+8} ${y0+34} Q${x0+dR+30} ${y0} ${x0+dR+8} ${y0-34}`,blue,2.2,'none','aBlue')+TX(x0+dR+36,y0+4,'ω_i (CCW +)',12,'start',blue);}
-        else{s+=TX(x0+dR+14,y0+4,'disk at rest',12,'start',dim);}
-        s+=TX(x0,206,'top view',11,'middle',dim);
-        break;}
-      case 9:{const L=C(q,/^beam L$/,4),d=C(q,/^d$/,L*.25),d2=C(q,/^d₂$/,L*.8),loads=v==='loads';
-        const x0=100,x1=674,y=101,xm=x0+(x1-x0)*d/L,xm2=x0+(x1-x0)*d2/L,center=(x0+x1)/2;
-        s+=PA(`M${x0} ${y+16} l-22 26 h44 z M${x1} ${y+16} l-22 26 h44 z`,dim,1.5,pale);
-        s+=`<rect x="${x0}" y="${y}" width="${x1-x0}" height="16" fill="${pale}" stroke="${ink}" stroke-width="1.8"/>`;
-        s+=`<rect x="${xm-25}" y="${y-39}" width="50" height="39" fill="${tan}" stroke="${ink}" stroke-width="1.5"/>`+TX(xm,y-15,'m',12,'middle');
-        if(loads){s+=`<rect x="${xm2-23}" y="${y-37}" width="46" height="37" fill="#c9d8e5" stroke="${ink}" stroke-width="1.5"/>`+TX(xm2,y-15,'m₂',12,'middle');}
-        s+=AR(x0,40,x0,98,blue)+TX(x0+8,40,'F_L',12,'start',blue);
-        s+=AR(x1,40,x1,98,blue)+TX(x1-8,40,'F_R',12,'end',blue);
-        s+=AR(center,116,center,170,red)+TX(center+10,162,'Mg',12,'start',red);
-        s+=DIM(x0,xm,182,'d')+DIM(x0,x1,202,'L');
-        break;}
-      case 10:{const cx=390,cy=113;
-        s+=CR(cx,cy,38,disk,dim,1.5)+CR(cx,cy,5,ink,ink,0);
-        s+=LN(214,cy,566,cy,ink,6)+PT(214,cy)+PT(566,cy);
-        s+=CR(cx-21,cy,7,'#e0e8ec',dim,1.5)+CR(cx+21,cy,7,'#e0e8ec',dim,1.5);
-        s+=AR(240,cy-22,352,cy-22,blue)+AR(540,cy+22,428,cy+22,blue);
-        s+=TX(290,cy-30,'r_i',13,'middle')+TX(490,cy+40,'r_i',13,'middle');
-        s+=TX(cx,172,'axis',12,'middle',dim)+TX(cx,200,'barbells move toward axis',12,'middle',dim);
-        break;}
-      case 11:{const cx=385;
-        s+=LN(cx,16,cx,204,dim,1.5,'4 4');
-        s+=`<ellipse cx="${cx}" cy="67" rx="82" ry="19" fill="#e0e9eb" stroke="${ink}" stroke-width="2"/><path d="M${cx-82} 67 V79 Q${cx} 112 ${cx+82} 79 V67" fill="#c4d9de" stroke="${ink}" stroke-width="1.6"/>`;
-        s+=`<ellipse cx="${cx}" cy="149" rx="119" ry="27" fill="#e0e9eb" stroke="${ink}" stroke-width="2"/><path d="M${cx-119} 149 V163 Q${cx} 205 ${cx+119} 163 V149" fill="#bbd5dc" stroke="${ink}" stroke-width="1.6"/>`;
-        s+=AR(cx+150,72,cx+150,118,red)+TX(cx+160,100,'upper lowered',12,'start',red);
-        s+=TX(cx+96,46,'upper CW (−)',12,'start',blue)+TX(cx+124,186,'lower CCW (+)',12,'start',blue);
-        break;}
-      case 12:{const ccw=v==='ccw',cx=385,cy=105,ax=298,ay=39,bx=472,by=171;
-        s+=LN(ax,ay,bx,by,ink,7)+PT(ax,ay)+PT(bx,by)+CR(cx,cy,5,ink,ink,0);
-        s+=TX(352,58,'r',15,'middle',ink)+TX(cx-6,cy+28,'axle',12,'end',dim);
-        s+=TX(268,28,'m',14,'end')+TX(bx+10,by+18,'m',14,'start');
-        s+=PA(ccw?'M596 153 C620 112 586 70 536 67':'M536 67 C586 70 620 112 596 153',blue,2.5,'none','aBlue');
-        s+=TX(560,48,ccw?'CCW (+z)':'CW (−z)',13,'start',blue)+TX(632,118,'ω',15,'start',blue);
-        break;}
-      case 13:{const baseline=v==='baseline',neg=v==='direction',phi=C(q,/φ/,90),cx=401,cy=123,rs=80,a0=132*Math.PI/180,ex=cx+rs*Math.cos(a0),ey=cy-rs*Math.sin(a0);
-        s+=LN(158,cy,642,cy,dim,1.2,'4 5')+LN(cx,35,cx,199,dim,1.2,'4 5');
-        s+=AR(cx,cy,ex,ey,blue)+CR(cx,cy,5,ink,ink,0)+PT(ex,ey);
-        s+=TX((cx+ex)/2-10,(cy+ey)/2-6,'r',13,'end',blue);
-        const af=baseline?Math.PI:a0+(neg?-1:1)*phi*Math.PI/180,fx=ex+60*Math.cos(af),fy=ey-60*Math.sin(af);
-        s+=AR(ex,ey,fx,fy,red)+TX(fx+(fx>ex?8:-10),fy-9,'F',14,fx>ex?'start':'end',red);
-        if(!baseline){s+=TX(ex+22,ey+22,'φ',13,'start',red);}
-        s+=TX(646,cy-8,'+x',12,'start',dim)+TX(cx+8,42,'+y',12,'start',dim);
-        break;}
-      case 14:{const rod=v==='rod',multi=['multi','reverse'].includes(v),up=v==='multi';const cx=397,cy=105,R=85,r=38;
-        s+=rod?LN(cx,cy,cx+R,cy,ink,11):CR(cx,cy,R);
-        s+=CR(cx,cy,r,'#d1dfe7',blue,2)+CR(cx,cy,4,ink,ink,0)+LN(cx,cy,cx+r,cy,dim,1.3,'4 4')+TX(cx+12,cy-9,'r',12,'start',dim);
-        s+=TX(rod?cx+R-6:cx+R*.7,rod?cy-12:cy-R*.7-6,'R',12,'start',dim);
-        s+=AR(cx+r,cy,cx+r,192,red)+TX(cx+r+10,186,'F',14,'start',red);
-        if(multi){const xx=cx+R;s+=AR(xx,cy,xx,up?22:188,blue)+TX(xx+10,up?36:180,'F₂',13,'start',blue);}
-        s+=TX(cx-130,200,rod?'rod + inner disk':'concentric disks',12,'start',dim);
-        break;}
-      case 15:{const angled=v==='angle',bounce=v==='bounce',still=v==='still',R=78,cx=399,cy=109,x=cx-.8*R,y=cy-.6*R,rr=R+12,p=Math.SQRT1_2*rr;
-        s+=CR(cx,cy,R)+CR(cx,cy,5,ink,ink,0);
-        s+=LN(cx,cy,cx+R,cy,dim,1.2,'4 4')+TX(cx+R/2,cy+16,'R',13,'middle',dim);
-        s+=LN(cx,cy,x,y,dim,1.5,'5 4')+PT(x,y)+TX(x-12,y+18,'impact (x, y)',12,'end',ink);
-        if(still){s+=TX(cx+rr+10,cy+4,'disk at rest',12,'start',dim);}
-        else{s+=`<path d="M${cx+p} ${cy-p} A${rr} ${rr} 0 0 1 ${cx+p} ${cy+p}" fill="none" stroke="${blue}" stroke-width="2.4" marker-end="url(#aBlue)"/>`;
-          s+=TX(cx+rr+10,cy-2,'ω_i clockwise',12,'start',blue)+TX(cx+rr+10,cy+14,'(−z)',12,'start',dim);}
-        let fromX=x,fromY=8;
-        if(angled){const phi=C(q,/incoming angle/,60)*Math.PI/180,th=Math.atan2(.6,-.8)+phi;fromX=x-104*Math.cos(th);fromY=y+104*Math.sin(th);}
-        s+=AR(fromX,fromY,x,y-10,red)+TX(fromX-8,Math.max(16,fromY-6),'v_in',12,'end',red);
-        if(angled){s+=TX(fromX+10,fromY+14,'φ',13,'start',red);}
-        if(bounce){s+=AR(x+10,y-12,x+10,14,blue)+TX(x+18,30,'v_out (up)',12,'start',blue);}
-        break;}
-    }
-    return root(s,desc);
-  }
-  return {render};
+ const ink='#203449', blue='#2a7181', red='#b45c4f', dim='#71839a', pale='#e5edf0';
+ const TX=(x,y,v,size=13,anchor='start',color=ink)=>`<text x="${x}" y="${y}" fill="${color}" font-size="${size}" font-weight="560" text-anchor="${anchor}" font-family="system-ui, sans-serif">${String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;')}</text>`;
+ const LN=(x1,y1,x2,y2,col=ink,w=2,dash='')=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col}" stroke-width="${w}" ${dash?`stroke-dasharray="${dash}"`:''}/>`;
+ const AR=(x1,y1,x2,y2,col=red,w=3)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col}" stroke-width="${w}" marker-end="url(#${col===red?'aRed':col===blue?'aBlue':'aInk'})"/>`;
+ const CR=(x,y,r,fill='#e7eef1',stroke=ink,w=2)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="${w}"/>`;
+ const PA=(d,col=ink,w=2,fill='none')=>`<path d="${d}" fill="${fill}" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
+ const PT=(x,y)=>CR(x,y,9,'#f0cba4',ink,1.7);
+ const BK=(x1,y1,x2,y2,label,y=195)=>LN(x1,y,x2,y,dim,1.3)+LN(x1,y-4,x1,y+4,dim,1.3)+LN(x2,y-4,x2,y+4,dim,1.3)+TX((x1+x2)/2,y-6,label,12,'middle',dim);
+ const C=(q,re,fallback)=>{const c=q.components.find(c=>re.test(c.sym));return c?Number(c.value):fallback;};
+ const root=(s,description)=>`<svg class="case-diagram" viewBox="0 0 780 212" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${description.replace(/"/g,'&quot;')}"><defs><marker id="aRed" viewBox="0 0 10 10" markerWidth="6.5" markerHeight="6.5" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="${red}"/></marker><marker id="aBlue" viewBox="0 0 10 10" markerWidth="6.5" markerHeight="6.5" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="${blue}"/></marker><marker id="aInk" viewBox="0 0 10 10" markerWidth="6.5" markerHeight="6.5" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="${ink}"/></marker></defs>${s}</svg>`;
+ const dimCircle=(x,y,r,lab)=>CR(x,y,r)+TX(x+r+12,y+4,lab,12);
+ function render(q){let s='',desc='Diagram illustrating the geometry and forces of this problem';const v=q.variant||'baseline';
+ switch(q.slot){
+ case 1:{let yoyo=v==='yoyo';s+=LN(95,188,685,188,dim,2);s+=CR(342,yoyo?110:126,58);s+=CR(342,yoyo?110:126,5,ink,ink,0);
+  const sy=(yoyo?110:126);s+=LN(400,sy,400,29,ink,3);s+=TX(292,27,yoyo?'fixed string support':'unwinding string',12);
+  if(yoyo){s+=CR(400,28,4,ink,ink,0);s+=AR(342,sy+13,342,184,red);s+=TX(355,163,'Mg',13);s+=AR(425,sy,425,50,blue);s+=TX(438,58,'tension',12);s+=TX(273,203,'CM moves down',12);}
+  else{s+=AR(400,102,400,28,red);s+=TX(415,53,'F = Mg',13);s+=LN(342,sy,342,190,dim,1,'4 4');s+=TX(241,201,'center fixed',12);s+=AR(565,132,565,66,blue);s+=TX(579,104,'hand rise Δy',12);}
+  s+=PA(`M295 ${sy-35} Q340 ${sy-76} 390 ${sy-35}`,blue,2.4);s+=TX(295,sy-59,'ω',13);break;}
+ case 2:{s+=CR(176,107,40);s+=CR(404,107,40);s+=LN(176,107,404,107,dim,1,'4 4');s+=TX(153,48,'initial disk',12);s+=TX(380,48,'after pull',12);
+  s+=LN(218,73,342,73,ink,3);s+=LN(446,73,640,73,ink,3);s+=AR(571,73,672,73,red);s+=TX(669,61,'F',13);s+=BK(176,188,404,188,'center displacement d',177);s+=BK(446,188,645,188,'string length L',177);s+=CR(176,107,4,ink,ink,0);s+=CR(404,107,4,ink,ink,0);s+=`<path d="M365 71 Q397 36 432 72" fill="none" stroke="${blue}" stroke-width="2" marker-end="url(#aBlue)"/>`;break;}
+ case 3:{let elastic=v==='elastic',track=v==='track';s+=track?PA('M98 43 Q170 160 260 158 L493 158 Q600 158 683 50',ink,3):PA('M98 48 C160 48 145 161 276 161 L490 161 C610 161 603 57 682 54',ink,3);
+  s+=PT(105,45);s+=PT(386,152);s+=TX(73,22,'block m₁',13);s+=TX(365,191,'target m₂',13);s+=LN(74,48,74,159,dim,1.4,'4 4');s+=TX(53,107,'h',14);s+=AR(222,137,322,152,blue);s+=TX(230,126,'before',12);
+  if(elastic){s+=AR(345,135,245,135,red);s+=TX(237,117,'rebounds',12);}else{s+=AR(440,151,541,125,red);s+=TX(511,108,'joined masses',12);}
+  s+=TX(589,190,'smooth track',12);break;}
+ case 4:{let offset=v==='offset';const cx=362,cy=102,r=79,y=cy-(offset?20:0);s+=LN(75,182,706,182,dim,2.2);s+=CR(cx,cy,r);s+=CR(cx,cy,4,ink,ink,0);s+=AR(cx,y,586,y,red);s+=TX(586,y-12,'2F',14);s+=AR(cx,183,239,183,blue);s+=TX(249,170,'f',14);s+=LN(cx,cy,cx+r,cy,dim,1.3,'5 4');s+=TX(cx+38,cy-9,'R',12);s+=TX(505,153,'rolling →',13);if(offset){s+=LN(cx+10,y,cx+10,cy,dim,1.3);s+=TX(cx+17,cy-6,'r',12);}break;}
+ case 5:{let L=C(q,/^L$/,0.5),a=C(q,/attachment a/,0.1),ang=C(q,/^θ$/,30),load=v==='load';let x0=106,x1=677,xb=x0+Math.min(.78,a/L)*(x1-x0),rad=ang*Math.PI/180;
+  s+=LN(x0,111,x1,111,ink,12);s+=CR(x0,111,7,'#e7eef1',ink,2);s+=AR(xb,111,xb+100*Math.sin(rad),111-100*Math.cos(rad),blue);s+=TX(xb+73,53,'F',14);s+=AR((x0+x1)/2,120,(x0+x1)/2,179,red);s+=TX((x0+x1)/2+11,164,'Mg',13);if(load){s+=AR(x1,119,x1,174,red);s+=TX(x1-7,189,'m_load g',12,'end');}s+=BK(x0,188,xb,188,'a',199);s+=BK(x0,208,x1,208,'L',204);s+=TX(73,94,'elbow',12);s+=TX(xb+20,100,'θ',12);break;}
+ case 6:case 7:{let mt=C(q,/^m_top$/,2),mb=C(q,/^m_bottom$/,2),upLeft=/top LEFT/.test(q.stem),btLeft=/bottom LEFT/.test(q.stem);const x=390,yT=33,yB=164,yCm=(mt*yT+mb*yB)/(mt+mb);s+=LN(x,yT,x,yB,ink,7);s+=PT(x,yT);s+=PT(x,yB);s+=CR(x,yCm,4,blue,blue,0);s+=TX(x+14,yCm+4,'CM',12);const len=110;s+=AR(x+(upLeft?-10:10),yT,x+(upLeft?-len:len),yT,red);s+=AR(x+(btLeft?-10:10),yB,x+(btLeft?-len:len),yB,blue);s+=TX(upLeft?x-len-15:x+len+12,yT-7,'v_top',12,upLeft?'end':'start');s+=TX(btLeft?x-len-15:x+len+12,yB-7,'v_bottom',12,btLeft?'end':'start');s+=LN(x-33,yT,x-33,yB,dim,1.2);s+=TX(x-40,106,'L',14,'end');s+=CR(x,199,4,red,red,0);s+=TX(x+12,204,'A',13);s+=TX(x-35,191,'h',12);s+=LN(x,yB,x,197,dim,1,'3 4');break;}
+ case 8:{let R=C(q,/disk radius R/,1),r=C(q,/landing radius r/,R),phi=C(q,/φ/,90),spin=C(q,/disk ω_i/,0),dR=80,landing=dR*r/R,x0=395,y0=110,x=x0-landing,y=y0;const theta=phi*Math.PI/180,dx=110*Math.cos(theta),dy=110*Math.sin(theta);
+  s+=CR(x0,y0,dR);s+=CR(x0,y0,4,ink,ink,0);s+=LN(x0,y0,x,y,dim,1.5,'5 4');s+=TX(x0-(landing/2),y-8,'r',12);s+=PT(x,y);s+=AR(x-dx,y+dy,x-9*Math.cos(theta),y+9*Math.sin(theta),red);s+=TX(x-dx-12,y+dy-9,'child v',12);
+  if(r<R){s+=CR(x0,y0,landing,'none',dim,1);s+=TX(x0+dR+18,y0+4,'inner landing',12);}if(spin){s+=TX(x0+90,y0-24,'disk ω_i (+)',12);}else{s+=TX(x0+95,y0-24,'disk at rest',12);}s+=TX(x0+112,y0+27,'top view',11);break;}
+ case 9:{let L=C(q,/^beam L$/,4),d=C(q,/^d$/,L*.25),d2=C(q,/^d₂$/,L*.8),loads=v==='loads';let x0=100,x1=674,y=101,xm=x0+(x1-x0)*d/L,xm2=x0+(x1-x0)*d2/L,center=(x0+x1)/2;
+  s+=`<rect x="${x0}" y="${y}" width="${x1-x0}" height="16" fill="${pale}" stroke="${ink}" stroke-width="1.8"/>`;
+  s+=PA(`M${x0+8} ${y+16} l-22 25 h44 z M${x1-8} ${y+16} l-22 25 h44 z`,dim,1.5,'#e5edf0');s+=`<rect x="${xm-25}" y="${y-39}" width="50" height="39" fill="#e2bd97" stroke="${ink}" stroke-width="1.5"/>`;s+=TX(xm,y-14,'m',12,'middle');s+=AR(x0,99,x0,40,blue);s+=TX(x0-13,35,'F_L',12);s+=AR(x1,99,x1,40,blue);s+=TX(x1-25,35,'F_R',12);s+=AR(center,116,center,171,red);s+=TX(center+9,162,'Mg',12);if(loads){s+=`<rect x="${xm2-23}" y="${y-37}" width="46" height="37" fill="#c9d8e5" stroke="${ink}" stroke-width="1.5"/>`;s+=TX(xm2,y-14,'m₂',12,'middle');}s+=BK(x0,180,xm,180,'d',195);s+=BK(x0,202,x1,202,'L',198);break;}
+ case 10:{const cx=390,cy=113; s+=CR(cx,cy,38);s+=CR(cx,cy,5,ink,ink,0);s+=LN(214,cy,566,cy,ink,6);s+=PT(214,cy);s+=PT(566,cy);s+=CR(cx-21,cy,7,'#e0e8ec',dim,1.5);s+=CR(cx+21,cy,7,'#e0e8ec',dim,1.5);s+=AR(240,cy-19,350,cy-19,blue);s+=AR(540,cy+19,430,cy+19,blue);s+=TX(246,73,'r_i',13);s+=TX(452,73,'r_i',13);s+=TX(365,176,'axis',12);s+=TX(278,200,'barbells move toward axis',12);break;}
+ case 11:{let cx=385;s+=LN(cx,13,cx,202,dim,2,'4 4');s+=`<ellipse cx="${cx}" cy="67" rx="82" ry="19" fill="#e0e9eb" stroke="${ink}" stroke-width="2"/><path d="M303 67 V79 Q385 112 467 79 V67" fill="#c4d9de" stroke="${ink}" stroke-width="1.6"/>`;s+=`<ellipse cx="${cx}" cy="149" rx="119" ry="27" fill="#e0e9eb" stroke="${ink}" stroke-width="2"/><path d="M266 149 V163 Q385 205 504 163 V149" fill="#bbd5dc" stroke="${ink}" stroke-width="1.6"/>`;s+=AR(534,72,534,120,red);s+=TX(546,106,'upper lowered',12); // correction below: label replaced after construction
+  s+=TX(492,40,'upper CW (−)',12);s+=TX(523,171,'lower CCW (+)',12);break;}
+ case 12:{let ccw=v==='ccw';const rx=C(q,/^r_x$/, -.3),ry=C(q,/^r_y$/,.4),x0=385,y0=108;
+  const radius=Math.hypot(rx,ry),dx=rx/radius*110,dy=ry/radius*110;
+  const ax=x0+dx,ay=y0-dy,bx=x0-dx,by=y0+dy;
+  s+=LN(180,y0,595,y0,dim,1.2,'5 5')+LN(x0,8,x0,207,dim,1.2,'5 5');
+  s+=AR(554,y0,598,y0,dim,1.4)+TX(608,y0+4,'+x',12);
+  s+=AR(x0,58,x0,13,dim,1.4)+TX(x0+11,22,'+y',12);
+  s+=LN(ax,ay,bx,by,ink,7)+PT(ax,ay)+PT(bx,by)+CR(x0,y0,5,ink,ink,0);
+  s+=LN(x0,y0,ax,ay,blue,2,'5 4');s+=TX(ax-20,ay-14,'m₁',13);s+=TX(bx+16,by+18,'m₂',13);
+  s+=TX(x0+18,y0-12,'axle',12);s+=TX(520,51,ccw?'CCW (+z)':'CW (−z)',13);
+  s+=`<path d="${ccw?'M596 153 C620 112 586 70 536 67':'M536 67 C586 70 620 112 596 153'}" fill="none" stroke="${blue}" stroke-width="2.5" marker-end="url(#aBlue)"/>`;
+  break;}
+ case 13:{const baseline=v==='baseline',neg=v==='direction',phi=C(q,/φ/,90),cx=401,cy=123,rs=103,rx=baseline?C(q,/^r_x$/,-.3):-.6,ry=baseline?C(q,/^r_y$/,.4):.8,angleR=Math.atan2(ry,rx),ex=cx+rs*Math.cos(angleR),ey=cy-rs*Math.sin(angleR);s+=LN(158,cy,642,cy,dim,1,'4 5')+LN(cx,35,cx,199,dim,1,'4 5');s+=CR(cx,cy,5,ink,ink,0);s+=AR(cx,cy,ex,ey,blue);s+=PT(ex,ey);let angleF=baseline?Math.PI:angleR+(neg?-1:1)*phi*Math.PI/180,fx=ex+116*Math.cos(angleF),fy=ey-116*Math.sin(angleF);s+=AR(ex,ey,fx,fy,red);s+=TX(fx+(fx>ex?8:-10),fy-9,'F',13);s+=TX(cx-28,cy-18,'r',13);s+=TX(420,191,'+x →',12);s+=TX(167,42,'+y ↑',12);if(!baseline){s+=TX(ex+18,ey+22,'φ',13);}break;}
+ case 14:{let rod=v==='rod',multi=['multi','reverse'].includes(v),second=v==='multi'?'up':'down';const cx=397,cy=105,R=85,r=38;s+=rod?LN(cx,cy,cx+R,cy,ink,11):CR(cx,cy,R);s+=CR(cx,cy,r,'#d1dfe7',blue,2);s+=CR(cx,cy,4,ink,ink,0);s+=LN(cx,cy,cx+r,cy,dim,1.3,'4 4');s+=TX(cx+12,cy-13,'r',12);s+=TX(cx+66,cy-45,'R',12);s+=AR(cx+r,cy,cx+r,194,red);s+=TX(cx+r+12,187,'F',14);if(multi){const xx=cx+R;s+=AR(xx,cy,xx,second==='up'?20:190,blue);s+=TX(xx+15,second==='up'?40:175,'F₂',13);}s+=TX(cx-135,196,rod?'rod + inner disk':'concentric disks',12);break;}
+ case 15:{let angled=v==='angle',bounce=v==='bounce',R=78,cx=399,cy=109,x=cx-.8*R,y=cy-.6*R; s+=CR(cx,cy,R);s+=CR(cx,cy,5,ink,ink,0);s+=LN(cx,cy,x,y,dim,1.5,'5 4');s+=PT(x,y);s+=TX(cx+17,cy+17,'axle',12);s+=TX(x-83,y+9,'clay',13);let fromX=x,fromY=4;
+  if(angled){const phi=C(q,/incoming angle/,60)*Math.PI/180,theta=Math.atan2(.6,-.8)+phi;fromX=x-104*Math.cos(theta);fromY=y+104*Math.sin(theta);}s+=AR(fromX,fromY,x,y-13,red);s+=TX(fromX+7,Math.max(17,fromY-9),'v_in',12);if(bounce){s+=AR(x-12,y-5,x-12,7,blue);s+=TX(x-50,19,'v_out',12);}s+=TX(cx+105,70,v==='still'?'disk at rest':'disk ω_i CW',12);if(v!=='still')s+=TX(cx+112,88,'(−z)',12);break;}
+ }
+ return root(s,desc);
+ }
+ return {render};
 })();
 function drawDiagram(q){return q.slot>=16?drawOptionalDiagram(q):DIA.render(q)}
 
@@ -534,7 +511,7 @@ function drawOptionalDiagram(q){
  const c=(name,def=0)=>{const d=q.components.find(x=>x.sym===name);return d?Number(d.value):def;};
  const line=(x1,y1,x2,y2,color=ink,sw=2,dash='')=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${color}" stroke-width="${sw}" ${dash?`stroke-dasharray="${dash}"`:''}/>`;
  const circle=(x,y,r,fill='#e4ecf1',color=ink,sw=2)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${fill}" stroke="${color}" stroke-width="${sw}"/>`;
- const tx=(x,y,t,size=13,color=ink,anchor='middle')=>`<text x="${x}" y="${y}" font-family="system-ui,sans-serif" font-size="${size}" fill="${color}" font-weight="580" text-anchor="${anchor}" paint-order="stroke" stroke="#fffefa" stroke-width="4" stroke-linejoin="round">${String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;')}</text>`;
+ const tx=(x,y,t,size=13,color=ink,anchor='middle')=>`<text x="${x}" y="${y}" font-family="system-ui,sans-serif" font-size="${size}" fill="${color}" font-weight="580" text-anchor="${anchor}">${String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;')}</text>`;
  const arrow=(x1,y1,x2,y2,col=red)=>`<path d="M${x1} ${y1} L${x2} ${y2}" fill="none" stroke="${col}" stroke-width="2.9" stroke-linecap="round" marker-end="url(#${col===red?'optRed':'optBlue'})"/>`;
  const endpoint=(x,y)=>circle(x,y,8,'#f0cda5',ink,1.5);
  let s='';
@@ -591,11 +568,11 @@ function drawOptionalDiagram(q){
 const SAVE_KEY='phys172-examstudio-v2';
 const SOURCE_COUNT=(BANK_DATA?.sources||[]).length;
 const PAGES=BANK_DATA?.pages||[];
-const T={slot:1,variant:'baseline',seed:182900,globalDepth:0,regress:{},mode:'mc',blind:true,scope:'both',stats:{correct:0,total:0,streak:0,slots:{}},prefs:{},selected:-1,submitted:false,typed:'',view:'train',archiveBank:'sp26-final',archivePage:1,archived:{},weak:{},theme:'dark',archiveSearch:'',examDifficulty:0,assist:false,showGivens:false};
+const T={slot:1,variant:'baseline',seed:182900,globalDepth:0,regress:{},mode:'mc',blind:true,scope:'both',stats:{correct:0,total:0,streak:0,slots:{}},prefs:{},selected:-1,submitted:false,typed:'',view:'train',archiveBank:'sp26-final',archivePage:1,archived:{},weak:{},theme:'dark',archiveSearch:'',examDifficulty:0,assist:false,equationMode:true};
 try{Object.assign(T,JSON.parse(localStorage.getItem(SAVE_KEY)||'{}'));}catch(e){}
-T.view='train'; // always open on Practice; the last saved tab is ignored on load
+T.view=T.view==='exam'?'train':T.view;
 T.stats=T.stats||{correct:0,total:0,streak:0,slots:{}};T.stats.slots=T.stats.slots||{};
-T.regress=T.regress||{};T.prefs=T.prefs||{};T.archived=T.archived||{};T.weak=T.weak||{};T.assist=Boolean(T.assist);
+T.regress=T.regress||{};T.prefs=T.prefs||{};T.archived=T.archived||{};T.weak=T.weak||{};T.assist=Boolean(T.assist);T.equationMode=T.equationMode!==false;
 let Q=null, O=[],EX=null,EXINT=null, lastMathRequest=0;
 const el=id=>document.getElementById(id), $$=(sel,node=document)=>Array.from(node.querySelectorAll(sel));
 function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
@@ -639,7 +616,7 @@ function variantFor(slot){const v=T.prefs[slot]?.variant; if(v&&PROBLEMS[slot-1]
  const scope=T.prefs[slot]?.scope||'both';const ts=PROBLEMS[slot-1].tweaks.filter(x=>scope==='both'||(scope==='baseline'?x[0]==='baseline':x[0]!=='baseline'));
  return ts[Math.floor(Math.random()*ts.length)][0];}
 function startSlot(slot){if(slot<=15)T.lastOfficialSlot=slot;else T.lastOptionalSlot=slot;T.slot=slot;T.variant=variantFor(slot);T.seed=rseed();T.selected=-1;T.typed='';T.submitted=false;resetQ();store();render();window.scrollTo({top:0,behavior:'smooth'});}
-function newVariant(){T.seed=rseed();T.variant=variantFor(T.slot);T.selected=-1;T.typed='';T.submitted=false;resetQ();store();render();}
+function newVariant(){const before=Q?JSON.stringify([Q.variant,Q.components.map(c=>c.value)]):null;let attempts=0;do{T.seed=rseed();T.variant=variantFor(T.slot);resetQ();attempts++;}while(attempts<12&&JSON.stringify([Q.variant,Q.components.map(c=>c.value)])===before);T.selected=-1;T.typed='';T.submitted=false;store();render();}
 function setView(view){if(EX&&!EX.finished&&view!=='exam'&&!confirm('Leave this exam? Your current responses will be discarded.'))return;if(EX&&view!=='exam')EX=null;if(EXINT){clearInterval(EXINT);EXINT=null;}T.view=view;store();render();window.scrollTo({top:0,behavior:'smooth'});}
 function render(){document.documentElement.dataset.theme=T.theme||'dark';document.body.classList.toggle('archive-live',T.view==='archive');document.body.classList.toggle('exam-live',T.view==='exam');
  $$('[data-view]').forEach(x=>x.classList.toggle('active',x.dataset.view===T.view));
@@ -672,12 +649,13 @@ function renderTrain(){const p=PROBLEMS[T.slot-1],v=T.prefs[T.slot]||{},st=T.sta
  <div class="compact-controls"><select id="scopeControl" aria-label="Choose baseline or professor tweaks"><option value="baseline" ${(v.scope||'both')==='baseline'?'selected':''}>${p.optional?'First part only':'Baseline only'}</option><option value="tweaks" ${(v.scope||'both')==='tweaks'?'selected':''}>${p.optional?'Other parts':'Professor tweaks'}</option><option value="both" ${(v.scope||'both')==='both'?'selected':''}>${p.optional?'All parts':'Baseline + tweaks'}</option></select><select id="variantSelect" aria-label="Choose specific variation"><option value="">Random variation</option>${p.tweaks.map(([id,name])=>`<option value="${esc(id)}" ${v.variant===id?'selected':''}>${esc(name)}</option>`).join('')}</select><button class="btn primary" id="newQuestion">New question</button><button class="btn subtle" id="toggleControls">Adjust givens</button></div>
  <div id="questionMount">${questionCard(Q,O,{type:'train',selected:T.selected,submitted:T.submitted,blind:T.blind})}</div>
  ${T.submitted?feedbackHtml(Q,O[T.selected]?.correct,O):''}
- <div class="underquestion"><label class="quiet-check"><input type="checkbox" id="assistToggle" ${T.assist?'checked':''}> Show worked solution after grading</label><button class="text-button" id="sourcePageBtn">${p.optional?'Original recitation sheet (no key)':'Original PDF question / solution'}</button></div>`;
+ <div class="underquestion">${[1,2,6,7,9].includes(T.slot)?`<label class="quiet-check"><input type="checkbox" id="equationToggle" ${T.equationMode?'checked':''}> Identify equation (official format)</label>`:''}<label class="quiet-check"><input type="checkbox" id="assistToggle" ${T.assist?'checked':''}> Show worked solution after grading</label><button class="text-button" id="sourcePageBtn">${p.optional?'Original recitation sheet (no key)':'Original PDF question / solution'}</button></div>`;
  $$('[data-quickslot]').forEach(b=>b.onclick=()=>startSlot(+b.dataset.quickslot));
  el('officialSet').onclick=()=>startSlot(T.lastOfficialSlot||1);el('optionalSet').onclick=()=>startSlot(T.lastOptionalSlot||16);
  el('scopeControl').onchange=e=>{T.prefs[T.slot]??={};T.prefs[T.slot].scope=e.target.value;T.prefs[T.slot].variant='';newVariant();};
  el('variantSelect').onchange=e=>{T.prefs[T.slot]??={};T.prefs[T.slot].variant=e.target.value;T.prefs[T.slot].scope='both';newVariant();};
  el('newQuestion').onclick=newVariant;el('toggleControls').onclick=openGivenDrawer;
+ el('equationToggle')&&(el('equationToggle').onchange=e=>{T.equationMode=e.target.checked;T.selected=-1;T.submitted=false;resetQ();store();render();});
  el('assistToggle').onchange=e=>{T.assist=e.target.checked;store();if(T.submitted)renderTrain();};
  el('sourcePageBtn').onclick=()=>p.optional?openRecitationPage(p.recSource,p.recPage):openGuidePage(p.page);
  wireQuestionHandlers('train');
@@ -708,14 +686,14 @@ function physicsUnitTex(unit){let v=unit||'';v=v.replace(/\s*\([^)]*\)/g,'').tri
  if(v==='')return '';
  return String.raw`\mathrm{`+v.replace(/[^a-zA-Z0-9]/g,'')+'}';}
 function optionHtml(opt,q,idx,sel,submitted){const result=!!opt.correct, chosen=sel===idx;let label='';
- if(q.partner!==null&&q.partner!==undefined){const names=q.pairNames||[String.raw`F_{\rm left}`,String.raw`F_{\rm right}`];label=renderTex(`${names[0]}=${fmt(opt.partner,2)}\\,\\mathrm{N}\\quad ${names[1]}=${fmt(opt.val,2)}\\,\\mathrm{N}`);}
+ if(opt.tex){label=renderTex(opt.tex,true);}else  if(q.partner!==null&&q.partner!==undefined){const names=q.pairNames||[String.raw`F_{\rm left}`,String.raw`F_{\rm right}`];label=renderTex(`${names[0]}=${fmt(opt.partner,2)}\\,\\mathrm{N}\\quad ${names[1]}=${fmt(opt.val,2)}\\,\\mathrm{N}`);}
  else{const clean=opt.label.trim();const matches=clean.match(/^-?\d+(?:\.\d+)?(?:e[+-]?\d+)?/i);const number=matches?matches[0]:fmt(opt.val,3);const u=physicsUnitTex(q.unit);label=renderTex(number+(u?'\\,'+u:''));}
  return `<button class="answer ${chosen?'selected':''} ${submitted&&result?'good':''} ${submitted&&chosen&&!result?'bad':''} ${submitted?'locked':''}" data-answer="${idx}" ${submitted?'disabled':''}><span class="letter">${'ABCDE'[idx]}</span><span class="answer-value">${label}</span>${submitted&&result?'<span class="flag" style="color:#23885e">✓ CORRECT</span>':''}${submitted&&chosen&&!result?'<span class="flag" style="color:#b74840">✕ YOUR CHOICE</span>':''}</button>`;
 }
 function questionCard(q,opts,{type='train',selected=-1,submitted=false,blind=false}={}){
  const isExam=type==='exam';return `<article class="question-paper exam-sheet"><div class="paper-meta"><span>${q.optional?'PHYS 172 · OPTIONAL RECITATION':'PHYS 172 · EXAM 3'}</span><span>${q.optional?`${q.recSource==='rec12'?'REC 12 · P2':'REC 13 · P'+(q.recPage===1?'2':'3')}`:`Problem ${String(q.slot).padStart(2,'0')} <i>·</i> 16 points`}</span></div>
  <div class="paper-pad"><p class="problem-stem">${esc(q.stem)}</p>${q.stemMath?`<div class="stem-math">${renderTex(q.stemMath)}</div>`:''}<figure class="figure-inline">${figureFor(q)}</figure>
- <div class="givens-toggle"><label class="quiet-check"><input type="checkbox" id="givensToggle" ${T.showGivens?'checked':''}> Show given values</label></div><div class="given-stack${T.showGivens?'':' hide'}" aria-label="Given values">${givenHtml(q)}</div>
+ <div class="given-stack" aria-label="Given values">${givenHtml(q)}</div>
  <div class="options" role="group" aria-label="Choose one answer">${opts.map((o,i)=>optionHtml(o,q,i,selected,submitted)).join('')}</div></div>
  <div class="paper-bottom"><span class="paper-status">${submitted?'Answer recorded':isExam?'You may change your answer until submission':'Select one answer'}</span>${isExam?'':submitted?'<button class="btn primary" id="nextCase">Next question</button>':'<button class="btn primary" id="submitAnswer">Check answer</button>'}</div></article>`;
 }
@@ -729,7 +707,7 @@ function wireQuestionHandlers(target){let root=target==='train'?el('questionMoun
 function submitTrain(){if(T.selected<0){alert('Choose an answer before submitting.');return;}
  T.submitted=true;const okay=!!O[T.selected]?.correct;T.stats.total++;T.stats.correct+=okay?1:0;T.stats.streak=okay?T.stats.streak+1:0;let slot=T.stats.slots[T.slot]||{t:0,c:0};slot.t++;slot.c+=okay?1:0;T.stats.slots[T.slot]=slot;store();render();}
 function feedbackHtml(q,passed,opts){const ok=passed===true,correct=opts.find(o=>o.correct);
- return `<section class="feedback-compact ${ok?'correct':'incorrect'}"><div class="feedback-single"><strong>${ok?'Correct':'Incorrect'}</strong><span>${ok?'':'Correct choice: '+esc(correct?.label||'')}</span></div>
+ return `<section class="feedback-compact ${ok?'correct':'incorrect'}"><div class="feedback-single"><strong>${ok?'Correct':'Incorrect'}</strong><span>${ok?'':(correct?.tex?'Correct equation: '+renderTex(correct.tex):'Correct choice: '+esc(correct?.label||''))}</span></div>
  ${T.assist?`<details class="solution-details" open><summary>Worked solution</summary><div class="math-hero">${renderTex(LATEX_FORMULAS[q.slot-1],true)}</div><ol>${q.work.map(w=>`<li>${esc(w)}</li>`).join('')}</ol>${q.note?`<p>${esc(q.note)}</p>`:''}</details>`:`<details class="solution-details"><summary>Show worked solution</summary><div class="math-hero">${renderTex(LATEX_FORMULAS[q.slot-1],true)}</div><ol>${q.work.map(w=>`<li>${esc(w)}</li>`).join('')}</ol>${q.note?`<p>${esc(q.note)}</p>`:''}</details>`}</section>`;
 }
 
@@ -780,7 +758,7 @@ function openRecitationPage(source,page){const label=source==='rec12'?'RECITATIO
 function openGuidePage(page){openModal(`<div class="eyebrow" style="color:var(--accent)">FALL 2026 · OFFICIAL PROFESSOR PRACTICE KEY</div><h1 style="font-size:30px;margin:8px 0 13px">Original source · page ${page}</h1><p class="muted" style="font-size:12px">This page contains the published correct answer and “HOW TO TWEAK” commentary. It is not altered or paraphrased.</p><img class="guide-image" src="${guideSource(page)}" alt="Official Fall 2026 Exam 3 practice solutions page ${page}">`);}
 function examLanding(){return `<div class="exam-frame"><div class="session-top"><div class="session-id"><strong>Mock exam</strong><span>Fall 2026 · 15 problems · 240 points</span></div></div><section class="panel exam-start-panel"><h2>Start a 60-minute exam</h2><p>No hints, grading, or solutions until you submit. One randomized question from each Fall 2026 practice slot.</p><div class="exam-config"><label for="examDepthSimple">Given-information difficulty</label><select id="examDepthSimple" aria-label="Choose difficulty">${DEPTS.map((n,i)=>`<option value="${i}" ${T.examDifficulty===i?'selected':''}>${n==='DIRECT'?'Direct values':n==='DERIVE'?'Derive some values':'Multi-step givens'}</option>`).join('')}</select></div><button class="btn primary" id="beginExam">Start exam</button></section></div>`;}
 
-function beginExam(){const settings={regress:{},globalDepth:T.examDifficulty};EX={index:0,seed:rseed(),started:Date.now(),duration:3600,answers:{},finished:false,qs:[],opts:[],score:0,reviewIndex:null};
+function beginExam(){const settings={regress:{},globalDepth:T.examDifficulty,equationMode:true};EX={index:0,seed:rseed(),started:Date.now(),duration:3600,answers:{},finished:false,qs:[],opts:[],score:0,reviewIndex:null};
  for(let i=1;i<=15;i++){const p=PROBLEMS[i-1],variants=p.tweaks;seedRandom(EX.seed+i*151);const v=variants[Math.floor(randomFn()*variants.length)][0];const q=generateProblem(i,v,settings);seedRandom(EX.seed+i*151+1);EX.qs.push(q);EX.opts.push(makeOptions(q));}
  EXINT=setInterval(()=>{if(EX&&!EX.finished){let left=EX.duration-Math.floor((Date.now()-EX.started)/1000);if(left<=0)finishExam();else{let e=el('examClock');if(e){e.textContent=timeFmt(left);e.classList.toggle('low',left<300);}}}},1000);
  renderExam();}
@@ -805,7 +783,6 @@ el('closeGivenDrawer').onclick=closeGivenDrawer;el('drawerShade').onclick=closeG
 el('themeButton').onclick=()=>{T.theme=T.theme==='dark'?'light':'dark';store();render();};
 el('mobileRailToggle').onclick=()=>{const rail=el('leftRail');rail.classList.toggle('expanded');el('mobileRailToggle').textContent=rail.classList.contains('expanded')?'Hide questions ▴':'Show questions ▾';};
 el('modalLayer').addEventListener('click',e=>{if(e.target===el('modalLayer'))closeModal();});
-document.addEventListener('change',e=>{if(e.target.id!=='givensToggle')return;T.showGivens=e.target.checked;store();$$('.given-stack').forEach(x=>x.classList.toggle('hide',!T.showGivens));$$('#givensToggle').forEach(x=>x.checked=T.showGivens);});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeGivenDrawer();}if(T.view==='archive'&&!e.target.matches('input,select,textarea')){if(e.key==='ArrowRight'){T.archivePage++;renderArchive();}if(e.key==='ArrowLeft'){T.archivePage=Math.max(1,T.archivePage-1);renderArchive();}}});
 window.addEventListener('load',()=>typeset());
 resetQ();render();
