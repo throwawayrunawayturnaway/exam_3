@@ -63,6 +63,7 @@ body.archive-live .layout{display:grid;grid-template-columns:230px minmax(0,1fr)
 .answer:has(mjx-container[display="true"]){min-height:66px}
 .given-derived{display:inline-block;max-width:100%;line-height:1.5}
 @media(max-width:700px){.answer-value mjx-container[display="true"]{max-width:100%;overflow-x:auto;overflow-y:hidden}}
+.stem-givens{font:inherit;color:inherit}.stem-math{color:#172b3b}.case-diagram text{font-variant-numeric:tabular-nums}
 </style>
 <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true,packages:{'[+]':['noerrors']}},svg:{fontCache:'global'},options:{skipHtmlTags:['script','style','textarea','pre','code']},startup:{typeset:false}};</script>
 </head><body>
@@ -457,32 +458,32 @@ const DIA = (() => {
  const C=(q,re,fallback)=>{const c=q.components.find(c=>re.test(c.sym));return c?Number(c.value):fallback;};
  const root=(s,description)=>`<svg class="case-diagram" viewBox="0 0 780 212" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${description.replace(/"/g,'&quot;')}"><defs><marker id="aRed" viewBox="0 0 10 10" markerWidth="6.5" markerHeight="6.5" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="${red}"/></marker><marker id="aBlue" viewBox="0 0 10 10" markerWidth="6.5" markerHeight="6.5" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="${blue}"/></marker><marker id="aInk" viewBox="0 0 10 10" markerWidth="6.5" markerHeight="6.5" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="${ink}"/></marker></defs>${s}</svg>`;
  const dimCircle=(x,y,r,lab)=>CR(x,y,r)+TX(x+r+12,y+4,lab,12);
- function render(q){let s='',desc='Diagram illustrating the geometry and forces of this problem';const v=q.variant||'baseline';
+ function render(q){let s='',desc='Diagram illustrating the geometry and forces of this problem';const v=q.variant||'baseline', V=(label,match=label)=>diagramLabel(q,label,match);
  switch(q.slot){
  case 1:{let yoyo=v==='yoyo';s+=LN(95,188,685,188,dim,2);s+=CR(342,yoyo?110:126,58);s+=CR(342,yoyo?110:126,5,ink,ink,0);
   const sy=(yoyo?110:126);s+=LN(400,sy,400,29,ink,3);s+=TX(292,27,yoyo?'fixed string support':'unwinding string',12);
-  if(yoyo){s+=CR(400,28,4,ink,ink,0);s+=AR(342,sy+13,342,184,red);s+=TX(355,163,'Mg',13);s+=AR(425,sy,425,50,blue);s+=TX(438,58,'tension',12);s+=TX(273,203,'CM moves down',12);}
-  else{s+=AR(400,102,400,28,red);s+=TX(415,53,'F = Mg',13);s+=LN(342,sy,342,190,dim,1,'4 4');s+=TX(241,201,'center fixed',12);s+=AR(565,132,565,66,blue);s+=TX(579,104,'hand rise Δy',12);}
-  s+=PA(`M295 ${sy-35} Q340 ${sy-76} 390 ${sy-35}`,blue,2.4);s+=TX(295,sy-59,'ω',13);break;}
+  if(yoyo){s+=CR(400,28,4,ink,ink,0);s+=AR(342,sy+13,342,184,red);s+=TX(355,163,'Mg',13);s+=AR(425,sy,425,50,blue);s+=TX(438,58,'tension',12);s+=TX(235,203,V('drop h','drop h'),12);}
+  else{s+=AR(400,102,400,28,red);s+=TX(415,53,'F = Mg',13);s+=LN(342,sy,342,190,dim,1,'4 4');s+=TX(241,201,'center fixed',12);s+=AR(565,132,565,66,blue);s+=TX(579,104,V('Δy','hand rise Δy'),12);}
+  s+=PA(`M295 ${sy-35} Q340 ${sy-76} 390 ${sy-35}`,blue,2.4);s+=TX(245,sy-59,V('ω₀'),13);s+=TX(110,90,V('M'),13)+TX(110,111,V('R'),13)+TX(110,132,V('I'),13);break;}
  case 2:{s+=CR(176,107,40);s+=CR(404,107,40);s+=LN(176,107,404,107,dim,1,'4 4');s+=TX(153,48,'initial disk',12);s+=TX(380,48,'after pull',12);
-  s+=LN(218,73,342,73,ink,3);s+=LN(446,73,640,73,ink,3);s+=AR(571,73,672,73,red);s+=TX(669,61,'F',13);s+=BK(176,188,404,188,'center displacement d',177);s+=BK(446,188,645,188,'string length L',177);s+=CR(176,107,4,ink,ink,0);s+=CR(404,107,4,ink,ink,0);s+=`<path d="M365 71 Q397 36 432 72" fill="none" stroke="${blue}" stroke-width="2" marker-end="url(#aBlue)"/>`;break;}
+  s+=LN(218,73,342,73,ink,3);s+=LN(446,73,640,73,ink,3);s+=AR(571,73,672,73,red);s+=TX(665,61,V('F'),13,'end');s+=BK(176,188,404,188,V('d','center displacement d'),177);s+=BK(446,188,645,188,V('L','unwound length L'),177);s+=TX(32,92,V('M'),12)+TX(32,110,V('R'),12)+TX(32,128,V('I'),12);s+=CR(176,107,4,ink,ink,0);s+=CR(404,107,4,ink,ink,0);s+=`<path d="M365 71 Q397 36 432 72" fill="none" stroke="${blue}" stroke-width="2" marker-end="url(#aBlue)"/>`;break;}
  case 3:{let elastic=v==='elastic',track=v==='track';s+=track?PA('M98 43 Q170 160 260 158 L493 158 Q600 158 683 50',ink,3):PA('M98 48 C160 48 145 161 276 161 L490 161 C610 161 603 57 682 54',ink,3);
-  s+=PT(105,45);s+=PT(386,152);s+=TX(73,22,'block m₁',13);s+=TX(365,191,'target m₂',13);s+=LN(74,48,74,159,dim,1.4,'4 4');s+=TX(53,107,'h',14);s+=AR(222,137,322,152,blue);s+=TX(230,126,'before',12);
+  s+=PT(105,45);s+=PT(386,152);s+=TX(73,22,V('m₁','incoming mass m₁'),13);s+=TX(365,191,V('m₂','target mass m₂'),13);s+=LN(74,48,74,159,dim,1.4,'4 4');s+=TX(66,107,v==='reverse'?'h_i':V('h_i','release height h_i'),12,'end');if(v==='reverse')s+=TX(696,35,V('h_f','known final rise h_f'),12,'end');s+=AR(222,137,322,152,blue);s+=TX(230,126,'before',12);
   if(elastic){s+=AR(345,135,245,135,red);s+=TX(237,117,'rebounds',12);}else{s+=AR(440,151,541,125,red);s+=TX(511,108,'joined masses',12);}
   s+=TX(589,190,'smooth track',12);break;}
- case 4:{let offset=v==='offset';const cx=362,cy=102,r=79,y=cy-(offset?20:0);s+=LN(75,182,706,182,dim,2.2);s+=CR(cx,cy,r);s+=CR(cx,cy,4,ink,ink,0);s+=AR(cx,y,586,y,red);s+=TX(586,y-12,'2F',14);s+=AR(cx,183,239,183,blue);s+=TX(249,170,'f',14);s+=LN(cx,cy,cx+r,cy,dim,1.3,'5 4');s+=TX(cx+38,cy-9,'R',12);s+=TX(505,153,'rolling →',13);if(offset){s+=LN(cx+10,y,cx+10,cy,dim,1.3);s+=TX(cx+17,cy-6,'r',12);}break;}
+ case 4:{let offset=v==='offset';const cx=362,cy=102,r=79,y=cy-(offset?20:0);s+=LN(75,182,706,182,dim,2.2);s+=CR(cx,cy,r);s+=CR(cx,cy,4,ink,ink,0);s+=AR(cx,y,586,y,red);s+=TX(580,y-12,'2 × '+V('F','F (each pull)'),13,'end');s+=TX(105,70,V('M'),13);if(v==='omega')s+=TX(105,90,V('t'),12);s+=AR(cx,183,239,183,blue);s+=TX(249,170,'f',14);s+=LN(cx,cy,cx+r,cy,dim,1.3,'5 4');s+=TX(cx+13,cy-9,V('R'),12);s+=TX(505,153,'rolling →',13);if(offset){s+=LN(cx+10,y,cx+10,cy,dim,1.3);s+=TX(cx+17,cy-6,V('r','pulling point height r'),12);}break;}
  case 5:{let L=C(q,/^L$/,0.5),a=C(q,/attachment a/,0.1),ang=C(q,/^θ$/,30),load=v==='load';let x0=106,x1=677,xb=x0+Math.min(.78,a/L)*(x1-x0),rad=ang*Math.PI/180;
-  s+=LN(x0,111,x1,111,ink,12);s+=CR(x0,111,7,'#e7eef1',ink,2);s+=AR(xb,111,xb+100*Math.sin(rad),111-100*Math.cos(rad),blue);s+=TX(xb+73,53,'F',14);s+=AR((x0+x1)/2,120,(x0+x1)/2,179,red);s+=TX((x0+x1)/2+11,164,'Mg',13);if(load){s+=AR(x1,119,x1,174,red);s+=TX(x1-7,189,'m_load g',12,'end');}s+=BK(x0,188,xb,188,'a',199);s+=BK(x0,208,x1,208,'L',204);s+=TX(73,94,'elbow',12);s+=TX(xb+20,100,'θ',12);break;}
- case 6:case 7:{let mt=C(q,/^m_top$/,2),mb=C(q,/^m_bottom$/,2),upLeft=/top LEFT/.test(q.stem),btLeft=/bottom LEFT/.test(q.stem);const x=390,yT=33,yB=164,yCm=(mt*yT+mb*yB)/(mt+mb);s+=LN(x,yT,x,yB,ink,7);s+=PT(x,yT);s+=PT(x,yB);s+=CR(x,yCm,4,blue,blue,0);s+=TX(x+14,yCm+4,'CM',12);const len=110;s+=AR(x+(upLeft?-10:10),yT,x+(upLeft?-len:len),yT,red);s+=AR(x+(btLeft?-10:10),yB,x+(btLeft?-len:len),yB,blue);s+=TX(upLeft?x-len-15:x+len+12,yT-7,'v_top',12,upLeft?'end':'start');s+=TX(btLeft?x-len-15:x+len+12,yB-7,'v_bottom',12,btLeft?'end':'start');s+=LN(x-33,yT,x-33,yB,dim,1.2);s+=TX(x-40,106,'L',14,'end');s+=CR(x,199,4,red,red,0);s+=TX(x+12,204,'A',13);s+=TX(x-35,191,'h',12);s+=LN(x,yB,x,197,dim,1,'3 4');break;}
+  s+=LN(x0,111,x1,111,ink,12);s+=CR(x0,111,7,'#e7eef1',ink,2);s+=AR(xb,111,xb+100*Math.sin(rad),111-100*Math.cos(rad),blue);s+=TX(xb+73,53,'F',14);s+=AR((x0+x1)/2,120,(x0+x1)/2,179,red);s+=TX((x0+x1)/2+11,164,'Mg',13);if(load){s+=AR(x1,119,x1,174,red);s+=TX(x1-7,189,'m_load g',12,'end');}s+=BK(x0,188,xb,188,V('a','attachment a'),199);s+=BK(x0,208,x1,208,V('L'),204);s+=TX(105,35,V('M'),12);if(load)s+=TX(665,90,V('m_load'),12,'end');s+=TX(73,94,'elbow',12);s+=TX(xb+20,100,V('θ'),12);break;}
+ case 6:case 7:{let mt=C(q,/^m_top$/,2),mb=C(q,/^m_bottom$/,2),upLeft=/top LEFT/.test(q.stem),btLeft=/bottom LEFT/.test(q.stem);const x=390,yT=33,yB=164,yCm=(mt*yT+mb*yB)/(mt+mb);s+=LN(x,yT,x,yB,ink,7);s+=PT(x,yT);s+=PT(x,yB);s+=CR(x,yCm,4,blue,blue,0);s+=TX(x+14,yCm+4,'CM',12);const len=110;s+=AR(x+(upLeft?-10:10),yT,x+(upLeft?-len:len),yT,red);s+=AR(x+(btLeft?-10:10),yB,x+(btLeft?-len:len),yB,blue);s+=TX(upLeft?x-len-15:x+len+12,yT-7,V('│v_top│','|v_top|'),12,upLeft?'end':'start');s+=TX(btLeft?x-len-15:x+len+12,yB-7,V('│v_bottom│','|v_bottom|'),12,btLeft?'end':'start');s+=LN(x-33,yT,x-33,yB,dim,1.2);s+=TX(x-40,106,V('L'),13,'end');s+=TX(x-20,yT-12,V('m_top'),12,'end');s+=TX(x-20,yB-12,V('m_bottom'),12,'end');s+=CR(x,199,4,red,red,0);s+=TX(x+12,204,'A',13);s+=TX(x-35,191,V('h'),12,'end');s+=LN(x,yB,x,197,dim,1,'3 4');break;}
  case 8:{let R=C(q,/disk radius R/,1),r=C(q,/landing radius r/,R),phi=C(q,/φ/,90),spin=C(q,/disk ω_i/,0),dR=80,landing=dR*r/R,x0=395,y0=110,x=x0-landing,y=y0;const theta=phi*Math.PI/180,dx=110*Math.cos(theta),dy=110*Math.sin(theta);
-  s+=CR(x0,y0,dR);s+=CR(x0,y0,4,ink,ink,0);s+=LN(x0,y0,x,y,dim,1.5,'5 4');s+=TX(x0-(landing/2),y-8,'r',12);s+=PT(x,y);s+=AR(x-dx,y+dy,x-9*Math.cos(theta),y+9*Math.sin(theta),red);s+=TX(x-dx-12,y+dy-9,'child v',12);
-  if(r<R){s+=CR(x0,y0,landing,'none',dim,1);s+=TX(x0+dR+18,y0+4,'inner landing',12);}if(spin){s+=TX(x0+90,y0-24,'disk ω_i (+)',12);}else{s+=TX(x0+95,y0-24,'disk at rest',12);}s+=TX(x0+112,y0+27,'top view',11);break;}
+  s+=CR(x0,y0,dR);s+=CR(x0,y0,4,ink,ink,0);s+=LN(x0,y0,x,y,dim,1.5,'5 4');s+=TX(x0-(landing/2),y-8,V('r','landing radius r'),12,'middle');s+=PT(x,y);s+=AR(x-dx,y+dy,x-9*Math.cos(theta),y+9*Math.sin(theta),red);s+=TX(Math.max(12,x-dx-12),Math.min(202,y+dy-9),V('v','child speed v'),12);s+=TX(92,45,V('m','child mass m'),12)+TX(92,64,V('φ','φ (from radial)'),12)+TX(550,120,V('M','disk mass M'),12)+TX(550,140,V('R','disk radius R'),12);
+  if(r<R){s+=CR(x0,y0,landing,'none',dim,1);s+=TX(x0+dR+18,y0+4,'inner landing',12);}if(spin){s+=TX(x0+90,y0-24,V('ω_i','disk ω_i CCW'),12);}else{s+=TX(x0+95,y0-24,'disk at rest',12);}s+=TX(x0+112,y0+27,'top view',11);break;}
  case 9:{let L=C(q,/^beam L$/,4),d=C(q,/^d$/,L*.25),d2=C(q,/^d₂$/,L*.8),loads=v==='loads';let x0=100,x1=674,y=101,xm=x0+(x1-x0)*d/L,xm2=x0+(x1-x0)*d2/L,center=(x0+x1)/2;
   s+=`<rect x="${x0}" y="${y}" width="${x1-x0}" height="16" fill="${pale}" stroke="${ink}" stroke-width="1.8"/>`;
-  s+=PA(`M${x0+8} ${y+16} l-22 25 h44 z M${x1-8} ${y+16} l-22 25 h44 z`,dim,1.5,'#e5edf0');s+=`<rect x="${xm-25}" y="${y-39}" width="50" height="39" fill="#e2bd97" stroke="${ink}" stroke-width="1.5"/>`;s+=TX(xm,y-14,'m',12,'middle');s+=AR(x0,99,x0,40,blue);s+=TX(x0-13,35,'F_L',12);s+=AR(x1,99,x1,40,blue);s+=TX(x1-25,35,'F_R',12);s+=AR(center,116,center,171,red);s+=TX(center+9,162,'Mg',12);if(loads){s+=`<rect x="${xm2-23}" y="${y-37}" width="46" height="37" fill="#c9d8e5" stroke="${ink}" stroke-width="1.5"/>`;s+=TX(xm2,y-14,'m₂',12,'middle');}s+=BK(x0,180,xm,180,'d',195);s+=BK(x0,202,x1,202,'L',198);break;}
- case 10:{const cx=390,cy=113; s+=CR(cx,cy,38);s+=CR(cx,cy,5,ink,ink,0);s+=LN(214,cy,566,cy,ink,6);s+=PT(214,cy);s+=PT(566,cy);s+=CR(cx-21,cy,7,'#e0e8ec',dim,1.5);s+=CR(cx+21,cy,7,'#e0e8ec',dim,1.5);s+=AR(240,cy-19,350,cy-19,blue);s+=AR(540,cy+19,430,cy+19,blue);s+=TX(246,73,'r_i',13);s+=TX(452,73,'r_i',13);s+=TX(365,176,'axis',12);s+=TX(278,200,'barbells move toward axis',12);break;}
+  s+=PA(`M${x0+8} ${y+16} l-22 25 h44 z M${x1-8} ${y+16} l-22 25 h44 z`,dim,1.5,'#e5edf0');s+=`<rect x="${xm-25}" y="${y-39}" width="50" height="39" fill="#e2bd97" stroke="${ink}" stroke-width="1.5"/>`;s+=TX(xm,y-14,V('m','first load m'),12,'middle');s+=TX(center,25,V('M','beam M'),12,'middle');s+=AR(x0,99,x0,40,blue);s+=TX(x0-13,35,'F_L',12);s+=AR(x1,99,x1,40,blue);s+=TX(x1-25,35,'F_R',12);s+=AR(center,116,center,171,red);s+=TX(center+9,162,'Mg',12);if(loads){s+=`<rect x="${xm2-23}" y="${y-37}" width="46" height="37" fill="#c9d8e5" stroke="${ink}" stroke-width="1.5"/>`;s+=TX(xm2,y-14,V('m₂','second load m₂'),12,'middle');s+=TX(xm2,54,V('d₂'),12,'middle');}s+=BK(x0,180,xm,180,V('d'),178);s+=BK(x0,202,x1,202,V('L','beam L'),205);break;}
+ case 10:{const cx=390,cy=113; s+=CR(cx,cy,38);s+=CR(cx,cy,5,ink,ink,0);s+=LN(214,cy,566,cy,ink,6);s+=PT(214,cy);s+=PT(566,cy);s+=CR(cx-21,cy,7,'#e0e8ec',dim,1.5);s+=CR(cx+21,cy,7,'#e0e8ec',dim,1.5);s+=AR(240,cy-19,350,cy-19,blue);s+=AR(540,cy+19,430,cy+19,blue);s+=TX(246,73,V('r_i','initial radius r_i'),13);s+=TX(452,73,V('r_i','initial radius r_i'),13);s+=TX(55,70,V('m','each barbell m'),12)+TX(55,90,V('ω_i'),12)+TX(55,110,V('r_f','final radius r_f'),12);if(v==='reverse')s+=TX(55,130,V('ω_f','known ω_f'),12);else s+=TX(55,130,V('I_body'),12);s+=TX(365,176,'axis',12);s+=TX(278,200,'barbells move toward axis',12);break;}
  case 11:{let cx=385;s+=LN(cx,13,cx,202,dim,2,'4 4');s+=`<ellipse cx="${cx}" cy="67" rx="82" ry="19" fill="#e0e9eb" stroke="${ink}" stroke-width="2"/><path d="M303 67 V79 Q385 112 467 79 V67" fill="#c4d9de" stroke="${ink}" stroke-width="1.6"/>`;s+=`<ellipse cx="${cx}" cy="149" rx="119" ry="27" fill="#e0e9eb" stroke="${ink}" stroke-width="2"/><path d="M266 149 V163 Q385 205 504 163 V149" fill="#bbd5dc" stroke="${ink}" stroke-width="1.6"/>`;s+=AR(534,72,534,120,red);s+=TX(546,106,'upper lowered',12); // correction below: label replaced after construction
-  s+=TX(492,40,'upper CW (−)',12);s+=TX(523,171,'lower CCW (+)',12);break;}
+  s+=TX(492,40,'upper CW (−)',12);s+=TX(523,171,'lower CCW (+)',12);s+=TX(90,48,V('m','upper m'),12)+TX(90,66,V('r','upper r'),12)+TX(90,84,V('ω_top','upper CW speed ω_top'),12)+TX(90,140,V('M','lower M'),12)+TX(90,158,V('R','lower R'),12)+TX(90,176,V('ω₁','lower ω₁'),12);break;}
  case 12:{let ccw=v==='ccw';const rx=C(q,/^r_x$/, -.3),ry=C(q,/^r_y$/,.4),x0=385,y0=108;
   const radius=Math.hypot(rx,ry),dx=rx/radius*110,dy=ry/radius*110;
   const ax=x0+dx,ay=y0-dy,bx=x0-dx,by=y0+dy;
@@ -490,14 +491,14 @@ const DIA = (() => {
   s+=AR(554,y0,598,y0,dim,1.4)+TX(608,y0+4,'+x',12);
   s+=AR(x0,58,x0,13,dim,1.4)+TX(x0+11,22,'+y',12);
   s+=LN(ax,ay,bx,by,ink,7)+PT(ax,ay)+PT(bx,by)+CR(x0,y0,5,ink,ink,0);
-  s+=LN(x0,y0,ax,ay,blue,2,'5 4');s+=TX(ax-20,ay-14,'m₁',13);s+=TX(bx+16,by+18,'m₂',13);
+  s+=LN(x0,y0,ax,ay,blue,2,'5 4');s+=TX(ax-20,ay-14,V('m₁','mass of each ball m'),12,'end');s+=TX(bx+16,by+18,V('m₂','mass of each ball m'),12);s+=TX(65,66,V('r_x'),12)+TX(65,85,V('r_y'),12)+TX(65,104,V('│ω│','angular speed |ω|'),12);
   s+=TX(x0+18,y0-12,'axle',12);s+=TX(520,51,ccw?'CCW (+z)':'CW (−z)',13);
   s+=`<path d="${ccw?'M596 153 C620 112 586 70 536 67':'M536 67 C586 70 620 112 596 153'}" fill="none" stroke="${blue}" stroke-width="2.5" marker-end="url(#aBlue)"/>`;
   break;}
- case 13:{const baseline=v==='baseline',neg=v==='direction',phi=C(q,/φ/,90),cx=401,cy=123,rs=103,rx=baseline?C(q,/^r_x$/,-.3):-.6,ry=baseline?C(q,/^r_y$/,.4):.8,angleR=Math.atan2(ry,rx),ex=cx+rs*Math.cos(angleR),ey=cy-rs*Math.sin(angleR);s+=LN(158,cy,642,cy,dim,1,'4 5')+LN(cx,35,cx,199,dim,1,'4 5');s+=CR(cx,cy,5,ink,ink,0);s+=AR(cx,cy,ex,ey,blue);s+=PT(ex,ey);let angleF=baseline?Math.PI:angleR+(neg?-1:1)*phi*Math.PI/180,fx=ex+116*Math.cos(angleF),fy=ey-116*Math.sin(angleF);s+=AR(ex,ey,fx,fy,red);s+=TX(fx+(fx>ex?8:-10),fy-9,'F',13);s+=TX(cx-28,cy-18,'r',13);s+=TX(420,191,'+x →',12);s+=TX(167,42,'+y ↑',12);if(!baseline){s+=TX(ex+18,ey+22,'φ',13);}break;}
- case 14:{let rod=v==='rod',multi=['multi','reverse'].includes(v),second=v==='multi'?'up':'down';const cx=397,cy=105,R=85,r=38;s+=rod?LN(cx,cy,cx+R,cy,ink,11):CR(cx,cy,R);s+=CR(cx,cy,r,'#d1dfe7',blue,2);s+=CR(cx,cy,4,ink,ink,0);s+=LN(cx,cy,cx+r,cy,dim,1.3,'4 4');s+=TX(cx+12,cy-13,'r',12);s+=TX(cx+66,cy-45,'R',12);s+=AR(cx+r,cy,cx+r,194,red);s+=TX(cx+r+12,187,'F',14);if(multi){const xx=cx+R;s+=AR(xx,cy,xx,second==='up'?20:190,blue);s+=TX(xx+15,second==='up'?40:175,'F₂',13);}s+=TX(cx-135,196,rod?'rod + inner disk':'concentric disks',12);break;}
- case 15:{let angled=v==='angle',bounce=v==='bounce',R=78,cx=399,cy=109,x=cx-.8*R,y=cy-.6*R; s+=CR(cx,cy,R);s+=CR(cx,cy,5,ink,ink,0);s+=LN(cx,cy,x,y,dim,1.5,'5 4');s+=PT(x,y);s+=TX(cx+17,cy+17,'axle',12);s+=TX(x-83,y+9,'clay',13);let fromX=x,fromY=4;
-  if(angled){const phi=C(q,/incoming angle/,60)*Math.PI/180,theta=Math.atan2(.6,-.8)+phi;fromX=x-104*Math.cos(theta);fromY=y+104*Math.sin(theta);}s+=AR(fromX,fromY,x,y-13,red);s+=TX(fromX+7,Math.max(17,fromY-9),'v_in',12);if(bounce){s+=AR(x-12,y-5,x-12,7,blue);s+=TX(x-50,19,'v_out',12);}s+=TX(cx+105,70,v==='still'?'disk at rest':'disk ω_i CW',12);if(v!=='still')s+=TX(cx+112,88,'(−z)',12);break;}
+ case 13:{const baseline=v==='baseline',neg=v==='direction',phi=C(q,/φ/,90),cx=401,cy=123,rs=103,rx=baseline?C(q,/^r_x$/,-.3):-.6,ry=baseline?C(q,/^r_y$/,.4):.8,angleR=Math.atan2(ry,rx),ex=cx+rs*Math.cos(angleR),ey=cy-rs*Math.sin(angleR);s+=LN(158,cy,642,cy,dim,1,'4 5')+LN(cx,35,cx,199,dim,1,'4 5');s+=CR(cx,cy,5,ink,ink,0);s+=AR(cx,cy,ex,ey,blue);s+=PT(ex,ey);let angleF=baseline?Math.PI:angleR+(neg?-1:1)*phi*Math.PI/180,fx=ex+116*Math.cos(angleF),fy=ey-116*Math.sin(angleF);s+=AR(ex,ey,fx,fy,red);s+=TX(fx+(fx>ex?8:-10),Math.max(14,fy-9),V('│F│','|F|'),12,fx>ex?'start':'end');s+=TX(cx-28,cy-18,baseline?'r':V('│r│','|r|'),12);if(baseline)s+=TX(65,65,V('r_x'),12)+TX(65,84,V('r_y'),12);s+=TX(420,191,'+x →',12);s+=TX(167,42,'+y ↑',12);if(!baseline){s+=TX(ex+18,ey+22,V('φ','φ between r and F'),12);}break;}
+ case 14:{let rod=v==='rod',multi=['multi','reverse'].includes(v),second=v==='multi'?'up':'down';const cx=397,cy=105,R=85,r=38;s+=rod?LN(cx,cy,cx+R,cy,ink,11):CR(cx,cy,R);s+=CR(cx,cy,r,'#d1dfe7',blue,2);s+=CR(cx,cy,4,ink,ink,0);s+=LN(cx,cy,cx+r,cy,dim,1.3,'4 4');s+=TX(cx+8,cy-13,V('r','inner radius r'),12);s+=TX(cx+66,cy-45,V('R','outer radius R'),12);s+=TX(65,68,V('M','outer part M'),12)+TX(65,87,V('m','inner disk m'),12);s+=AR(cx+r,cy,cx+r,194,red);s+=TX(cx+r+12,187,V('F','inner pull F'),13);if(multi){const xx=cx+R;s+=AR(xx,cy,xx,second==='up'?20:190,blue);s+=TX(xx+15,second==='up'?40:175,V('F₂','second pull F₂'),13);}s+=TX(cx-135,196,rod?'rod + inner disk':'concentric disks',12);break;}
+ case 15:{let angled=v==='angle',bounce=v==='bounce',R=78,cx=399,cy=109,x=cx-.8*R,y=cy-.6*R; s+=CR(cx,cy,R);s+=CR(cx,cy,5,ink,ink,0);s+=LN(cx,cy,x,y,dim,1.5,'5 4');s+=PT(x,y);s+=TX(cx+17,cy+17,'axle',12);s+=TX(x-25,y+9,V('m','clay m'),12,'end');s+=TX(90,110,V('M','disk M'),12)+TX(90,129,V('R','disk R'),12)+TX(90,148,V('x','impact x'),12)+TX(90,167,V('y','impact y'),12);let fromX=x,fromY=4;
+  if(angled){const phi=C(q,/incoming angle/,60)*Math.PI/180,theta=Math.atan2(.6,-.8)+phi;fromX=x-104*Math.cos(theta);fromY=y+104*Math.sin(theta);}s+=AR(fromX,fromY,x,y-13,red);s+=TX(fromX+7,Math.max(17,fromY-9),V('│v_in│','incoming |v|'),12);if(angled)s+=TX(555,110,V('φ','incoming angle φ to radius'),12);if(bounce){s+=AR(x-12,y-5,x-12,7,blue);s+=TX(x-15,19,V('│v_out│','outgoing |v_out|'),12,'end');}s+=TX(cx+105,70,v==='still'?'disk at rest':V('ω_i','disk clockwise speed ω_i'),12);if(v!=='still')s+=TX(cx+112,88,'(−z)',12);break;}
  }
  return root(s,desc);
  }
@@ -507,7 +508,7 @@ function drawDiagram(q){return q.slot>=16?drawOptionalDiagram(q):DIA.render(q)}
 
 // Geometry-correct diagrams for optional recitation problems. Single question visible at a time.
 function drawOptionalDiagram(q){
- const ink='#233448',red='#b35748',blue='#317a91',muted='#8290a4';
+ const ink='#233448',red='#b35748',blue='#317a91',muted='#8290a4',V=(label,match=label)=>diagramLabel(q,label,match);
  const c=(name,def=0)=>{const d=q.components.find(x=>x.sym===name);return d?Number(d.value):def;};
  const line=(x1,y1,x2,y2,color=ink,sw=2,dash='')=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${color}" stroke-width="${sw}" ${dash?`stroke-dasharray="${dash}"`:''}/>`;
  const circle=(x,y,r,fill='#e4ecf1',color=ink,sw=2)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${fill}" stroke="${color}" stroke-width="${sw}"/>`;
@@ -521,11 +522,11 @@ function drawOptionalDiagram(q){
    s+=line(278,18,524,18,muted,5)+circle(x,py,5,ink,ink,0)+line(x,py,x,dy,ink,8);
    s+=circle(x,dy,rr,'#c9dde6')+circle(x,dy,4,ink,ink,0);
    s+=line(x-78,py,x-78,dy,muted,1.3)+line(x-83,py,x-73,py,muted,1.3)+line(x-83,dy,x-73,dy,muted,1.3);
-   s+=tx(x-94,93,'L',14,ink,'end')+tx(x+17,95,'m',14)+tx(x-4,dy+5,'M',14);
-   s+=line(x,dy,x+rr,dy,muted,1.5)+tx(x+rr/2,dy-8,'R',12);
+   s+=tx(x-94,93,V('L','rod length L'),13,ink,'end')+tx(x+17,95,V('m','rod mass m'),13,ink,'start')+tx(x-rr-12,dy+5,V('M','disk mass M'),13,ink,'end');
+   s+=line(x,dy,x+rr,dy,muted,1.5)+tx(x+rr/2,dy-8,V('R','disk radius R'),12);
    s+=tx(x+29,31,'Pivot P',12,ink,'start');
    s+=`<path d="M${x+rr+48},${dy+20} Q${x+rr+67},${dy-20} ${x+rr+23},${dy-47}" fill="none" stroke="${blue}" stroke-width="2.5" marker-end="url(#optBlue)"/>`;
-   s+=tx(x+rr+74,dy-50,'ω',17,blue);
+   s+=tx(x+rr+74,dy-50,V('ω'),13,blue);
    s+=tx(681,192,'lowest position',12,muted,'end');
  }
  else if(q.slot===17){
@@ -537,11 +538,11 @@ function drawOptionalDiagram(q){
    s+=circle(x,y,7,'#fff8e9')+line(x,anchorY,end,y,isBroken?muted:blue,isBroken?1.6:3,isBroken?'5 5':'');
    if(!isBroken){const dd=beam*0.23,sin=Math.sin(th),cos=Math.cos(th);s+=arrow(end-4,y-3,end-dd*cos,y-dd*sin,blue);s+=tx(end-.38*beam,y-.38*beam*Math.tan(th)-9,'T',14,blue);}
    s+=arrow(x+beam/2,y+8,x+beam/2,y+40,red)+tx(x+beam/2+22,y+38,'Mg',13,red);
-   s+=tx(x-15,y+11,'A',14);s+=tx(x+beam/2,y-15,'M',13);s+=tx(x+beam/2,y+50,'L',12,muted);
+   s+=tx(x-15,y+11,'A',14);s+=tx(x+beam/2,y-15,V('M'),13);s+=tx(x+beam/2,y+50,V('L'),12,muted);
    if(!isBroken){
      const arc=30,ex=end-arc*Math.cos(th),ey=y-arc*Math.sin(th);
      s+=`<path d="M${end-arc},${y} A${arc} ${arc} 0 0 1 ${ex},${ey}" fill="none" stroke="${blue}" stroke-width="1.6"/>`;
-     s+=tx(end-42,y-7,'θ',14,ink);
+     s+=tx(end-42,y-7,V('θ'),13,ink);
    }else{s+=tx(end+16,y-18,'cable broken',12,red,'start');}
    // Hinge reactions are shown only when computing hinge forces.
    if(q.variant==='hinge')s+=arrow(x,y-13,x+66,y-13,blue)+tx(x+48,y-24,'Hₓ',13,blue);
@@ -554,10 +555,10 @@ function drawOptionalDiagram(q){
      const ang=a*Math.PI/2,xx=cx+outer*Math.cos(ang),yy=cy+outer*Math.sin(ang);
      s+=line(cx,cy,xx,yy,ink,4)+endpoint(xx,yy);
    }
-   s+=line(cx,cy,cx+inner,cy,muted,1.3)+tx(cx+inner/2,cy-9,'R',12);
-   s+=line(cx,cy,cx,cy-outer,muted,1.3)+tx(cx-11,cy-outer/2,'b',12);
-   s+=line(cx,cy-inner,cx+215,cy-inner,ink,2.5)+arrow(cx+139,cy-inner,cx+227,cy-inner,red)+tx(cx+230,cy-inner-10,'F',14,red);
-   s+=tx(cx+9,cy+15,'M',13,ink,'start')+tx(cx+84,cy-70,'m',12)+tx(cx-83,cy-81,'m',12);
+   s+=line(cx,cy,cx+inner,cy,muted,1.3)+tx(cx+inner/2,cy-9,V('R','disk R'),12);
+   s+=line(cx,cy,cx,cy-outer,muted,1.3)+tx(cx-11,cy-outer/2,V('b','mass radius b'),12,ink,'end');
+   s+=line(cx,cy-inner,cx+215,cy-inner,ink,2.5)+arrow(cx+139,cy-inner,cx+227,cy-inner,red)+tx(cx+230,cy-inner-10,V('F'),13,red);
+   s+=tx(cx+9,cy+15,V('M','disk M'),13,ink,'start')+tx(cx+84,cy-70,V('m','each point m'),12)+tx(cx-83,cy-81,'m',12)+tx(660,110,V('Δt'),12);
    s+=tx(680,179,'top view',12,muted,'end');
  }
  return `<svg class="case-diagram recitation-diagram" viewBox="${q.slot===17?'0 0 580 245':'0 0 780 212'}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Geometric schematic for ${q.title}"><defs><marker id="optRed" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7z" fill="${red}"/></marker><marker id="optBlue" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7z" fill="${blue}"/></marker></defs>${s}</svg>`;
@@ -664,6 +665,21 @@ function renderTrain(){const p=PROBLEMS[T.slot-1],v=T.prefs[T.slot]||{},st=T.sta
 function openGivenDrawer(){el('rightRail').classList.add('open');el('drawerShade').classList.remove('hide');}
 function closeGivenDrawer(){el('rightRail').classList.remove('open');el('drawerShade').classList.add('hide');}
 
+function directGiven(q,c){const i=q.components.indexOf(c);return i>=0&&q.givens[i].startsWith(c.sym+' = ')&&Number.isFinite(c.value);}
+function displayQuantity(c){const unit=c.unit||'';return fnum(c.value)+(unit==='°'?'°':unit?' '+unit:'');}
+function diagramLabel(q,symbol,match){const c=q.components.find(x=>typeof match==='string'?x.sym===match:match.test(x.sym));return c&&directGiven(q,c)?`${symbol} = ${displayQuantity(c)}`:symbol;}
+function stemHtml(q){
+ const known=[],derived=[];
+ q.components.forEach((c,i)=>{if(directGiven(q,c))known.push(`${c.sym} = ${displayQuantity(c)}`);else {const prefix=c.sym+' — ';const line=q.givens[i];derived.push(line.startsWith(prefix)?`To determine ${c.sym}, use the following information: ${line.slice(prefix.length)}`:line);}});
+ const parts=[];
+ if(known.length)parts.push('The given quantities are '+known.join('; ')+'.');
+ if([1,3,4,5,9,17].includes(q.slot))parts.push('Use g = 10 m/s².');
+ parts.push(...derived);
+ const facts=esc(parts.join(' '));
+ const at=q.stem.search(/\s+(?=(?:Find|Determine|What|How high)\b)/);
+ if(at>=0)return esc(q.stem.slice(0,at))+' <span class="stem-givens">'+facts+'</span>'+esc(q.stem.slice(at));
+ return esc(q.stem)+' <span class="stem-givens">'+facts+'</span>';
+}
 function givenHtml(q){let i=0;const known=q.givens.map(line=>{const c=q.components[i++];
  const direct=line.startsWith(c.sym+' = ')&&Number.isFinite(c.value);
  if(!direct)return `<span class="given-token given-derived">${esc(line)}</span>`;
@@ -692,8 +708,7 @@ function optionHtml(opt,q,idx,sel,submitted){const result=!!opt.correct, chosen=
 }
 function questionCard(q,opts,{type='train',selected=-1,submitted=false,blind=false}={}){
  const isExam=type==='exam';return `<article class="question-paper exam-sheet"><div class="paper-meta"><span>${q.optional?'PHYS 172 · OPTIONAL RECITATION':'PHYS 172 · EXAM 3'}</span><span>${q.optional?`${q.recSource==='rec12'?'REC 12 · P2':'REC 13 · P'+(q.recPage===1?'2':'3')}`:`Problem ${String(q.slot).padStart(2,'0')} <i>·</i> 16 points`}</span></div>
- <div class="paper-pad"><p class="problem-stem">${esc(q.stem)}</p>${q.stemMath?`<div class="stem-math">${renderTex(q.stemMath)}</div>`:''}<figure class="figure-inline">${figureFor(q)}</figure>
- <div class="given-stack" aria-label="Given values">${givenHtml(q)}</div>
+ <div class="paper-pad"><p class="problem-stem">${stemHtml(q)}</p>${q.stemMath?`<div class="stem-math">${renderTex(q.stemMath)}</div>`:''}<figure class="figure-inline">${figureFor(q)}</figure>
  <div class="options" role="group" aria-label="Choose one answer">${opts.map((o,i)=>optionHtml(o,q,i,selected,submitted)).join('')}</div></div>
  <div class="paper-bottom"><span class="paper-status">${submitted?'Answer recorded':isExam?'You may change your answer until submission':'Select one answer'}</span>${isExam?'':submitted?'<button class="btn primary" id="nextCase">Next question</button>':'<button class="btn primary" id="submitAnswer">Check answer</button>'}</div></article>`;
 }
@@ -719,7 +734,7 @@ function renderRight(){el('rightRail').style.display='';const global=el('globalD
 }
 function updateGivenOnly(){// Maintain exact same generator seed and answers, without moving the student mid-question.
  const previousChoice=T.selected;resetQ();T.selected=previousChoice;
- const mounts=$$('#questionMount .given-stack');if(mounts.length){mounts[0].innerHTML=givenHtml(Q);}
+ const stem=$$('#questionMount .problem-stem')[0],figure=$$('#questionMount .figure-inline')[0];if(stem)stem.innerHTML=stemHtml(Q);if(figure)figure.innerHTML=figureFor(Q);
  // Case and answer choices remain unchanged; only information path is reformulated.
  typeset();
 }
